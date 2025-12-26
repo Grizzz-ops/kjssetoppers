@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Placements | KJSCE Toppers</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e27;
+  --bg-secondary: #0f1729;
+  --card: rgba(15, 23, 42, 0.6);
+  --card-hover: rgba(30, 41, 59, 0.8);
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --accent: #38bdf8;
+  --accent-glow: rgba(56, 189, 248, 0.4);
+  --purple: #a78bfa;
+  --pink: #ec4899;
+  --green: #34d399;
+  --orange: #fb923c;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(ellipse at top, #1e293b 0%, #0a0e27 50%, #020617 100%);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(56, 189, 248, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(167, 139, 250, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* NAVBAR */
+.navbar {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(16px) saturate(180%);
+  background: rgba(10, 14, 39, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 100;
+  animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--purple));
+  transition: width 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--text);
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 5rem 1.5rem 3rem;
+  position: relative;
+  z-index: 1;
+  animation: fadeInUp 0.8s ease 0.2s backwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--text) 0%, var(--accent) 50%, var(--purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: gradientShift 5s ease infinite;
+  line-height: 1.2;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.hero p {
+  color: var(--text-muted);
+  font-size: 1.125rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* SECTION */
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.section-header {
+  margin-bottom: 2.5rem;
+  animation: fadeInUp 0.6s ease backwards;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.section-icon {
+  font-size: 2.25rem;
+  filter: drop-shadow(0 0 10px var(--accent-glow));
+}
+
+.section-subtitle {
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 800px;
+}
+
+/* STATS GRID */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.stat-card {
+  background: var(--card);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease backwards;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+.stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(56, 189, 248, 0.3);
+  box-shadow: 0 10px 30px var(--accent-glow);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* CONTENT CARD */
+.content-card {
+  background: var(--card);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  transition: all 0.4s ease;
+  animation: fadeInUp 0.6s ease backwards;
+}
+
+.content-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(56, 189, 248, 0.3);
+  box-shadow: 0 15px 35px var(--accent-glow);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 0 15px var(--accent-glow));
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.card-content {
+  color: var(--text-muted);
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.card-content h4 {
+  color: var(--accent);
+  font-size: 1.125rem;
+  margin: 1.5rem 0 1rem;
+  font-weight: 600;
+}
+
+.card-content ul {
+  margin: 1rem 0 1rem 1.5rem;
+  line-height: 2;
+}
+
+.card-content li {
+  margin-bottom: 0.75rem;
+}
+
+.card-content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* REQUIREMENTS GRID */
+.requirements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.requirement-item {
+  background: rgba(56, 189, 248, 0.05);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.requirement-item:hover {
+  background: rgba(56, 189, 248, 0.1);
+  border-color: var(--accent);
+  transform: translateX(5px);
+}
+
+.requirement-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.requirement-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.requirement-desc {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* TIMELINE */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin-top: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent), var(--purple));
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -2.5rem;
+  top: 0.5rem;
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.timeline-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.timeline-content {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* COMPANIES SECTION */
+.companies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.company-badge {
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  font-weight: 600;
+  color: var(--text);
+  transition: all 0.3s ease;
+}
+
+.company-badge:hover {
+  background: rgba(56, 189, 248, 0.2);
+  transform: scale(1.05);
+  box-shadow: 0 5px 20px var(--accent-glow);
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  z-index: 1;
+  margin-top: 4rem;
+}
+
+footer p {
+  opacity: 0.7;
+}
+
+/* LOADING */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeOut 0.5s ease 1.2s forwards;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.loader {
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(56, 189, 248, 0.1);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+  nav {
+    gap: 1rem;
+  }
+  
+  nav a {
+    font-size: 0.875rem;
+  }
+  
+  .hero {
+    padding: 3rem 1rem 2rem;
+  }
+  
+  .section {
+    padding: 2rem 1rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .content-card {
+    padding: 1.5rem;
+  }
+  
+  .requirements-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .companies-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .timeline {
+    padding-left: 1.5rem;
+  }
+  
+  .timeline-item {
+    padding-left: 1.5rem;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay">
+  <div class="loader"></div>
+</div>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="nav-container">
+    <div class="logo">KJSCE TOPPERS</div>
+    <nav>
+      <a href="kjsce-home-redesign.html">Home</a>
+      <a href="kjsce-study-material-redesign.html">Study Material</a>
+      <a href="kjsce-placements.html">Placements</a>
+      <a href="kjsce-contact-redesign.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Placement Preparation</h1>
+  <p>Your complete guide to DSA, hackathons, projects, and placement success</p>
+</section>
+
+<!-- PLACEMENT STATS -->
+<section class="section">
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-number">90.21%</div>
+      <div class="stat-label">Placement Rate</div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-number">8.62 LPA</div>
+      <div class="stat-label">Average Package</div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-number">51.72 LPA</div>
+      <div class="stat-label">Highest Package</div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-number">200+</div>
+      <div class="stat-label">Companies Visit</div>
+    </div>
+  </div>
+</section>
+
+<!-- DSA PREPARATION -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span class="section-icon">💻</span>
+      Data Structures & Algorithms
+    </h2>
+    <p class="section-subtitle">Master DSA to crack technical interviews at top companies</p>
+  </div>
+  
+  <div class="content-card">
+    <div class="card-header">
+      <span class="card-icon">🎯</span>
+      <h3 class="card-title">DSA Roadmap</h3>
+    </div>
+    <div class="card-content">
+      <p>A structured approach to learning Data Structures and Algorithms is crucial for placement success. Here's your complete roadmap:</p>
+      
+      <h4>Foundation (2-3 months)</h4>
+      <ul>
+        <li><strong>Arrays & Strings:</strong> Basic operations, two-pointer technique, sliding window</li>
+        <li><strong>Linked Lists:</strong> Singly, doubly, circular linked lists, reversal, cycle detection</li>
+        <li><strong>Stacks & Queues:</strong> Implementation, applications, monotonic stack/queue</li>
+        <li><strong>Recursion & Backtracking:</strong> Base cases, recursive tree, subset generation</li>
+      </ul>
+      
+      <h4>Intermediate (3-4 months)</h4>
+      <ul>
+        <li><strong>Trees:</strong> Binary trees, BST, tree traversals, height, diameter</li>
+        <li><strong>Graphs:</strong> BFS, DFS, shortest paths (Dijkstra, Bellman-Ford), MST</li>
+        <li><strong>Dynamic Programming:</strong> Memoization, tabulation, common patterns (knapsack, LCS, LIS)</li>
+        <li><strong>Hashing:</strong> HashMap, HashSet, frequency counting, collision handling</li>
+      </ul>
+      
+      <h4>Advanced (2-3 months)</h4>
+      <ul>
+        <li><strong>Advanced Trees:</strong> Segment trees, Fenwick trees, Trie</li>
+        <li><strong>Advanced Graphs:</strong> Topological sort, strongly connected components, network flow</li>
+        <li><strong>Greedy Algorithms:</strong> Activity selection, Huffman coding, interval scheduling</li>
+        <li><strong>Bit Manipulation:</strong> XOR tricks, bit masking, power sets</li>
+      </ul>
+      
+      <h4>Recommended Practice Platforms</h4>
+      <ul>
+        <li><strong>LeetCode:</strong> 300+ problems (Easy: 150, Medium: 120, Hard: 30)</li>
+        <li><strong>Codeforces:</strong> Regular contests, aim for Specialist rating (1400+)</li>
+        <li><strong>CodeChef:</strong> Long challenges and cookoffs</li>
+        <li><strong>GeeksforGeeks:</strong> Company-specific questions and interview experiences</li>
+        <li><strong>InterviewBit:</strong> Topic-wise organized problems</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- HACKATHONS -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span class="section-icon">🏆</span>
+      Hackathons & Competitions
+    </h2>
+    <p class="section-subtitle">Participate in hackathons to build projects and showcase your skills</p>
+  </div>
+  
+  <div class="content-card">
+    <div class="card-header">
+      <span class="card-icon">⚡</span>
+      <h3 class="card-title">Why Hackathons Matter</h3>
+    </div>
+    <div class="card-content">
+      <p>Hackathons are invaluable for placement preparation and stand out significantly on your resume. Here's why they're important:</p>
+      
+      <ul>
+        <li><strong>Resume Impact:</strong> Hackathon wins and participation show practical problem-solving ability</li>
+        <li><strong>Networking:</strong> Connect with industry professionals, mentors, and potential employers</li>
+        <li><strong>Real-world Experience:</strong> Build complete products under time constraints</li>
+        <li><strong>Team Collaboration:</strong> Learn to work in teams, use Git, and manage projects</li>
+        <li><strong>Interview Talking Points:</strong> Great stories to share during behavioral rounds</li>
+      </ul>
+      
+      <h4>Popular Hackathons to Target</h4>
+      <ul>
+        <li><strong>Smart India Hackathon:</strong> National level, government-organized, great for resume</li>
+        <li><strong>MLH (Major League Hacking):</strong> Global hackathons with international exposure</li>
+        <li><strong>DevFest:</strong> Google Developer Groups organized events</li>
+        <li><strong>HackWithInfy:</strong> Infosys hackathon with direct interview opportunities</li>
+        <li><strong>Code Gladiators:</strong> TechGig's annual coding competition</li>
+        <li><strong>Company Hackathons:</strong> Microsoft Imagine Cup, Google Solution Challenge, Facebook Hackathon</li>
+      </ul>
+      
+      <h4>How to Prepare</h4>
+      <ul>
+        <li>Form a diverse team (2-4 members) with complementary skills</li>
+        <li>Practice building MVPs (Minimum Viable Products) quickly</li>
+        <li>Learn presentation skills - demos are crucial</li>
+        <li>Focus on solving real-world problems with social impact</li>
+        <li>Document your project well on GitHub</li>
+      </ul>
+      
+      <h4>Hackathon Project Ideas</h4>
+      <ul>
+        <li>Healthcare: Telemedicine platforms, disease prediction using ML</li>
+        <li>Education: Personalized learning systems, virtual labs</li>
+        <li>Smart Cities: Traffic management, waste management solutions</li>
+        <li>Agriculture: Crop disease detection, yield prediction</li>
+        <li>FinTech: Budget trackers, investment advisors, fraud detection</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span class="section-icon">🚀</span>
+      Projects & Portfolio
+    </h2>
+    <p class="section-subtitle">Build impressive projects that demonstrate your technical skills</p>
+  </div>
+  
+  <div class="content-card">
+    <div class="card-header">
+      <span class="card-icon">🛠️</span>
+      <h3 class="card-title">Project Guidelines</h3>
+    </div>
+    <div class="card-content">
+      <p>Quality projects can significantly boost your chances in placements. Here's what makes a great project:</p>
+      
+      <h4>Types of Projects to Build</h4>
+      <ul>
+        <li><strong>Full-Stack Web Applications:</strong> E-commerce, social media clone, blog platform</li>
+        <li><strong>Machine Learning Projects:</strong> Image classification, recommendation system, chatbot</li>
+        <li><strong>Mobile Applications:</strong> Android/iOS apps solving real problems</li>
+        <li><strong>System Design Projects:</strong> URL shortener, file sharing system, chat application</li>
+        <li><strong>Open Source Contributions:</strong> Contribute to popular GitHub repositories</li>
+      </ul>
+      
+      <h4>Project Requirements for Strong Resume</h4>
+      <div class="requirements-grid">
+        <div class="requirement-item">
+          <span class="requirement-icon">📝</span>
+          <div class="requirement-title">Well-Documented</div>
+          <div class="requirement-desc">Clear README with setup instructions, features, and tech stack</div>
+        </div>
+        
+        <div class="requirement-item">
+          <span class="requirement-icon">🎨</span>
+          <div class="requirement-title">Good UI/UX</div>
+          <div class="requirement-desc">Polished interface, responsive design, user-friendly</div>
+        </div>
+        
+        <div class="requirement-item">
+          <span class="requirement-icon">🔒</span>
+          <div class="requirement-title">Security</div>
+          <div class="requirement-desc">Authentication, authorization, input validation, SQL injection prevention</div>
+        </div>
+        
+        <div class="requirement-item">
+          <span class="requirement-icon">⚡</span>
+          <div class="requirement-title">Performance</div>
+          <div class="requirement-desc">Optimized queries, caching, lazy loading, code splitting</div>
+        </div>
+        
+        <div class="requirement-item">
+          <span class="requirement-icon">🌐</span>
+          <div class="requirement-title">Deployed</div>
+          <div class="requirement-desc">Live demo on Heroku, Vercel, AWS, or similar platforms</div>
+        </div>
+        
+        <div class="requirement-item">
+          <span class="requirement-icon">🧪</span>
+          <div class="requirement-title">Tested</div>
+          <div class="requirement-desc">Unit tests, integration tests, CI/CD pipeline</div>
+        </div>
+      </div>
+      
+      <h4>Recommended Tech Stacks</h4>
+      <ul>
+        <li><strong>MERN:</strong> MongoDB, Express, React, Node.js</li>
+        <li><strong>Django + React:</strong> Python backend with modern frontend</li>
+        <li><strong>Spring Boot + Angular:</strong> Java enterprise stack</li>
+        <li><strong>Flutter:</strong> Cross-platform mobile development</li>
+        <li><strong>ML Stack:</strong> Python, TensorFlow/PyTorch, Flask/FastAPI</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PLACEMENT REQUIREMENTS -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span class="section-icon">📋</span>
+      Placement Requirements
+    </h2>
+    <p class="section-subtitle">Essential criteria and preparation checklist for placements</p>
+  </div>
+  
+  <div class="content-card">
+    <div class="card-header">
+      <span class="card-icon">✅</span>
+      <h3 class="card-title">Eligibility & Requirements</h3>
+    </div>
+    <div class="card-content">
+      <h4>Academic Requirements</h4>
+      <ul>
+        <li><strong>CGPA:</strong> Minimum 6.5-7.0 for most companies (varies by company)</li>
+        <li><strong>No Active Backlogs:</strong> Clear all backlogs before placement season</li>
+        <li><strong>10th & 12th Marks:</strong> Many companies have cutoffs (usually 60%+)</li>
+        <li><strong>Year Gap:</strong> No more than 1-2 years gap in education for some companies</li>
+      </ul>
+      
+      <h4>Technical Skills Checklist</h4>
+      <ul>
+        <li><strong>Programming Language:</strong> Strong command over at least one (Java, Python, C++)</li>
+        <li><strong>DSA Proficiency:</strong> Solve medium-level problems in under 30 minutes</li>
+        <li><strong>Database:</strong> SQL queries, normalization, ACID properties</li>
+        <li><strong>Operating Systems:</strong> Processes, threads, memory management, deadlocks</li>
+        <li><strong>Computer Networks:</strong> OSI model, TCP/IP, HTTP/HTTPS, DNS</li>
+        <li><strong>DBMS:</strong> Transactions, indexing, normalization</li>
+        <li><strong>OOP Concepts:</strong> Inheritance, polymorphism, encapsulation, abstraction</li>
+        <li><strong>Web Development:</strong> Frontend + Backend basics (if applying for dev roles)</li>
+      </ul>
+      
+      <h4>Soft Skills</h4>
+      <ul>
+        <li><strong>Communication:</strong> Clear articulation of thoughts in English</li>
+        <li><strong>Problem-solving:</strong> Structured approach to solving problems</li>
+        <li><strong>Confidence:</strong> Present yourself well in interviews and GDs</li>
+        <li><strong>Adaptability:</strong> Learn new technologies quickly</li>
+        <li><strong>Team Work:</strong> Collaborate effectively with others</li>
+      </ul>
+      
+      <h4>Resume Essentials</h4>
+      <ul>
+        <li>One page, ATS-friendly format</li>
+        <li>2-3 strong projects with GitHub links</li>
+        <li>Technical skills section with proficiency levels</li>
+        <li>Hackathon wins/participation</li>
+        <li>Internships or relevant experience</li>
+        <li>Certifications (if relevant)</li>
+        <li>Leadership positions in clubs/committees</li>
+        <li>No grammatical errors
