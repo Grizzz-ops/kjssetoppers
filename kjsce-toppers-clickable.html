@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>First Year | KJSCE Toppers</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e27;
+  --bg-secondary: #0f1729;
+  --card: rgba(15, 23, 42, 0.6);
+  --card-hover: rgba(30, 41, 59, 0.8);
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --accent: #38bdf8;
+  --accent-glow: rgba(56, 189, 248, 0.4);
+  --purple: #a78bfa;
+  --pink: #ec4899;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(ellipse at top, #1e293b 0%, #0a0e27 50%, #020617 100%);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(56, 189, 248, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(167, 139, 250, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* NAVBAR */
+.navbar {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(16px) saturate(180%);
+  background: rgba(10, 14, 39, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 100;
+  animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--purple));
+  transition: width 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--text);
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 5rem 1.5rem 3rem;
+  position: relative;
+  z-index: 1;
+  animation: fadeInUp 0.8s ease 0.2s backwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--text) 0%, var(--accent) 50%, var(--purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: gradientShift 5s ease infinite;
+  line-height: 1.2;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.hero p {
+  color: var(--text-muted);
+  font-size: 1.125rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* SECTION */
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.section-header {
+  margin-bottom: 2rem;
+  animation: fadeInUp 0.6s ease backwards;
+}
+
+.section-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.section-title .icon {
+  font-size: 2rem;
+  filter: drop-shadow(0 0 10px var(--accent-glow));
+}
+
+.section-subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* CARDS GRID */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--card);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--accent-glow), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(56, 189, 248, 0.3);
+  background: var(--card-hover);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 40px var(--accent-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.card:hover::before {
+  opacity: 0.1;
+}
+
+.card-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.card-icon {
+  font-size: 1.5rem;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.card:hover .card-icon {
+  opacity: 1;
+  transform: translateX(4px);
+}
+
+/* Stagger animation for cards */
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+.card:nth-child(5) { animation-delay: 0.5s; }
+.card:nth-child(6) { animation-delay: 0.6s; }
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  z-index: 1;
+  margin-top: 4rem;
+}
+
+footer p {
+  opacity: 0.7;
+}
+
+/* LOADING STATE */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeOut 0.5s ease 1.5s forwards;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.loader {
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(56, 189, 248, 0.1);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+  nav {
+    gap: 1rem;
+  }
+  
+  nav a {
+    font-size: 0.875rem;
+  }
+  
+  .hero {
+    padding: 3rem 1rem 2rem;
+  }
+  
+  .section {
+    padding: 2rem 1rem;
+  }
+  
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .card {
+    padding: 1.5rem;
+  }
+}
+
+/* SCROLL ANIMATIONS */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease;
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay">
+  <div class="loader"></div>
+</div>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="nav-container">
+    <div class="logo">KJSCE TOPPERS</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="kjsce-study-material-redesign.html">Study Material</a>
+      <a href="kjsce-contact-redesign.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>First Year Resources</h1>
+  <p>Access comprehensive study materials, previous year questions, and lab resources</p>
+</section>
+
+<!-- NOTES SECTION -->
+<section class="section scroll-reveal">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span class="icon">📘</span>
+      Notes
+    </h2>
+    <p class="section-subtitle">Complete lecture notes and study materials</p>
+  </div>
+  
+  <div class="cards-grid">
+    <div class="card" data-link="https://drive.google.com/drive/folders/1H6VB4825_oWJOFotwS-c1ZTFn4sIquDN">
+      <div class="card-content">
+        <span class="card-title">Applied Maths - 1</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="https://drive.google.com/drive/folders/1fzmeNnSR5su-osPc9wXVEpj1B36HdlMN">
+      <div class="card-content">
+        <span class="card-title">Engineering Chemistry</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="https://drive.google.com/drive/folders/1P76Xswf3D4WJrYpaSOASCuW5YpToRqcv">
+      <div class="card-content">
+        <span class="card-title">Engineering Drawing</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="https://drive.google.com/drive/folders/1_beEcV4PWDdg0rxZTeov0QbZJQdwNUDv">
+      <div class="card-content">
+        <span class="card-title">SPM</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="https://drive.google.com/drive/folders/1geNSRMSXk7K4jrU9CGWg-s_WiH1vK76n">
+      <div class="card-content">
+        <span class="card-title">Engineering Physics</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="https://drive.google.com/drive/folders/17mRkq17VtD7acJB8OSkR89Jo3ykxpq6P">
+      <div class="card-content">
+        <span class="card-title">Basic Electrical Engineering</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PYQS SECTION - SEM 1 -->
+<section class="section scroll-reveal">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span class="icon">📄</span>
+      PYQs - Semester 1
+    </h2>
+    <p class="section-subtitle">Previous year question papers</p>
+  </div>
+  
+  <div class="cards-grid">
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Applied Maths - 1</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Chemistry</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Drawing</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">SPM</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Physics</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Basic Electrical Engineering</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PYQS SECTION - SEM 2 -->
+<section class="section scroll-reveal">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span class="icon">📄</span>
+      PYQs - Semester 2
+    </h2>
+    <p class="section-subtitle">Previous year question papers</p>
+  </div>
+  
+  <div class="cards-grid">
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Applied Maths - 2</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Chemistry</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Graphics</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Computer Programming</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Physics</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Basic Electronics Engineering</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LABS SECTION -->
+<section class="section scroll-reveal">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span class="icon">🔬</span>
+      Lab Resources
+    </h2>
+    <p class="section-subtitle">Practical manuals and lab experiments</p>
+  </div>
+  
+  <div class="cards-grid">
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Applied Maths - 1</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Chemistry</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Drawing</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">SPM</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Physics</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Basic Electrical Engineering</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 KJSCE Toppers • Student Initiative</p>
+</footer>
+
+<script>
+// Remove loading overlay
+setTimeout(() => {
+  document.querySelector('.loading-overlay').style.display = 'none';
+}, 1500);
+
+// Card click handlers
+document.querySelectorAll('.card[data-link]').forEach(card => {
+  card.addEventListener('click', function() {
+    const link = this.getAttribute('data-link');
+    if (link && link !== '#') {
+      window.open(link, '_blank');
+    }
+  });
+});
+
+// Scroll reveal animation
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('revealed');
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.scroll-reveal').forEach(el => {
+  observer.observe(el);
+});
+
+// Navbar background on scroll
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const navbar = document.querySelector('.navbar');
+  if (window.scrollY > 100) {
+    navbar.style.background = 'rgba(10, 14, 39, 0.95)';
+    navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.3)';
+  } else {
+    navbar.style.background = 'rgba(10, 14, 39, 0.8)';
+    navbar.style.boxShadow = 'none';
+  }
+});
+</script>
+
+</body>
+</html>
