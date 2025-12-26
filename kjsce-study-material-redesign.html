@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Study Material | KJSCE Toppers</title>
+<title>First Year | KJSCE Toppers</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,8 +19,6 @@
   --accent-glow: rgba(56, 189, 248, 0.4);
   --purple: #a78bfa;
   --pink: #ec4899;
-  --green: #34d399;
-  --yellow: #fbbf24;
 }
 
 * {
@@ -173,43 +171,62 @@ nav a:hover::after {
   margin: 0 auto;
 }
 
-/* YEARS SECTION */
-.years-section {
+/* SECTION */
+.section {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 5rem;
+  padding: 3rem 1.5rem;
   position: relative;
   z-index: 1;
 }
 
-.years-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-}
-
-/* YEAR CARD - AVAILABLE */
-.year-card {
-  background: var(--card);
-  backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  padding: 3rem 2rem;
-  text-decoration: none;
-  color: var(--text);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  display: block;
+.section-header {
+  margin-bottom: 2rem;
   animation: fadeInUp 0.6s ease backwards;
 }
 
-.year-card:nth-child(1) { animation-delay: 0.1s; }
-.year-card:nth-child(2) { animation-delay: 0.2s; }
-.year-card:nth-child(3) { animation-delay: 0.3s; }
-.year-card:nth-child(4) { animation-delay: 0.4s; }
+.section-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
 
-.year-card::before {
+.section-title .icon {
+  font-size: 2rem;
+  filter: drop-shadow(0 0 10px var(--accent-glow));
+}
+
+.section-subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* CARDS GRID */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--card);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.card::before {
   content: '';
   position: absolute;
   top: 0;
@@ -221,107 +238,52 @@ nav a:hover::after {
   transition: opacity 0.4s ease;
 }
 
-.year-card.available:hover {
-  transform: translateY(-10px);
-  border-color: rgba(56, 189, 248, 0.4);
+.card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(56, 189, 248, 0.3);
+  background: var(--card-hover);
   box-shadow: 
-    0 25px 50px rgba(0, 0, 0, 0.5),
-    0 0 50px var(--accent-glow);
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 40px var(--accent-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.year-card.available:hover::before {
-  opacity: 0.15;
+.card:hover::before {
+  opacity: 0.1;
 }
 
-/* YEAR CARD - DISABLED */
-.year-card.disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.year-card.disabled:hover {
-  transform: none;
-  border-color: rgba(255, 255, 255, 0.05);
-  box-shadow: none;
-}
-
-.year-card.disabled::before {
-  display: none;
-}
-
-/* CARD CONTENT */
-.year-icon {
-  font-size: 3.5rem;
-  margin-bottom: 1.5rem;
-  display: block;
-  filter: drop-shadow(0 0 20px var(--accent-glow));
+.card-content {
   position: relative;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.year-card.disabled .year-icon {
-  filter: none;
-  opacity: 0.5;
-}
-
-.year-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  position: relative;
-  z-index: 1;
-}
-
-.year-description {
-  color: var(--text-muted);
-  line-height: 1.6;
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
-  position: relative;
-  z-index: 1;
-}
-
-/* BADGE */
-.badge {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.875rem;
+.card-title {
+  font-size: 1.125rem;
   font-weight: 600;
-  position: relative;
-  z-index: 1;
+  color: var(--text);
 }
 
-.badge.available {
-  background: rgba(56, 189, 248, 0.15);
-  color: var(--accent);
-  border: 1px solid var(--accent);
-}
-
-.badge.coming-soon {
-  background: rgba(148, 163, 184, 0.15);
-  color: var(--text-muted);
-  border: 1px solid rgba(148, 163, 184, 0.3);
-}
-
-/* ARROW INDICATOR */
-.year-arrow {
-  margin-top: 1rem;
-  color: var(--accent);
+.card-icon {
   font-size: 1.5rem;
-  transition: transform 0.3s ease;
-  display: inline-block;
-  position: relative;
-  z-index: 1;
+  opacity: 0.5;
+  transition: all 0.3s ease;
 }
 
-.year-card.available:hover .year-arrow {
-  transform: translateX(8px);
+.card:hover .card-icon {
+  opacity: 1;
+  transform: translateX(4px);
 }
 
-.year-card.disabled .year-arrow {
-  display: none;
-}
+/* Stagger animation for cards */
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+.card:nth-child(5) { animation-delay: 0.5s; }
+.card:nth-child(6) { animation-delay: 0.6s; }
 
 /* FOOTER */
 footer {
@@ -339,7 +301,7 @@ footer p {
   opacity: 0.7;
 }
 
-/* LOADING */
+/* LOADING STATE */
 .loading-overlay {
   position: fixed;
   top: 0;
@@ -351,7 +313,7 @@ footer p {
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  animation: fadeOut 0.5s ease 1.2s forwards;
+  animation: fadeOut 0.5s ease 1.5s forwards;
 }
 
 @keyframes fadeOut {
@@ -388,18 +350,30 @@ footer p {
     padding: 3rem 1rem 2rem;
   }
   
-  .years-section {
-    padding: 2rem 1rem 3rem;
+  .section {
+    padding: 2rem 1rem;
   }
   
-  .years-grid {
+  .cards-grid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1rem;
   }
   
-  .year-card {
-    padding: 2rem 1.5rem;
+  .card {
+    padding: 1.5rem;
   }
+}
+
+/* SCROLL ANIMATIONS */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease;
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>
 </head>
@@ -418,7 +392,6 @@ footer p {
     <nav>
       <a href="kjsce-home-redesign.html">Home</a>
       <a href="kjsce-study-material-redesign.html">Study Material</a>
-      <a href="kjsce-resources-redesign.html">Resources</a>
       <a href="kjsce-contact-redesign.html">Contact</a>
     </nav>
   </div>
@@ -426,55 +399,227 @@ footer p {
 
 <!-- HERO -->
 <section class="hero">
-  <h1>Study Material</h1>
-  <p>Select your academic year to access notes, PYQs, and resources</p>
+  <h1>First Year Resources</h1>
+  <p>Access comprehensive study materials, previous year questions, and lab resources</p>
 </section>
 
-<!-- YEARS SECTION -->
-<section class="years-section">
-  <div class="years-grid">
+<!-- NOTES SECTION -->
+<section class="section scroll-reveal">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span class="icon">📘</span>
+      Notes
+    </h2>
+    <p class="section-subtitle">Complete lecture notes and study materials</p>
+  </div>
+  
+  <div class="cards-grid">
+    <div class="card" data-link="https://drive.google.com/drive/folders/1H6VB4825_oWJOFotwS-c1ZTFn4sIquDN">
+      <div class="card-content">
+        <span class="card-title">Applied Maths - 1</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
     
-    <!-- FIRST YEAR - AVAILABLE -->
-    <a href="kjsce-toppers-clickable.html" class="year-card available">
-      <span class="year-icon">📘</span>
-      <h3 class="year-title">First Year</h3>
-      <p class="year-description">
-        Complete notes, PYQs, and lab resources for all FY subjects including Maths, Physics, Chemistry, and Engineering fundamentals.
-      </p>
-      <span class="badge available">Available</span>
-      <span class="year-arrow">→</span>
-    </a>
-
-    <!-- SECOND YEAR - COMING SOON -->
-    <div class="year-card disabled">
-      <span class="year-icon">📗</span>
-      <h3 class="year-title">Second Year</h3>
-      <p class="year-description">
-        Branch-specific subjects and core engineering courses. Content will be added soon.
-      </p>
-      <span class="badge coming-soon">Coming Soon</span>
+    <div class="card" data-link="https://drive.google.com/drive/folders/1fzmeNnSR5su-osPc9wXVEpj1B36HdlMN">
+      <div class="card-content">
+        <span class="card-title">Engineering Chemistry</span>
+        <span class="card-icon">→</span>
+      </div>
     </div>
-
-    <!-- THIRD YEAR - COMING SOON -->
-    <div class="year-card disabled">
-      <span class="year-icon">📙</span>
-      <h3 class="year-title">Third Year</h3>
-      <p class="year-description">
-        Advanced topics, electives, and specialization courses. Content will be added soon.
-      </p>
-      <span class="badge coming-soon">Coming Soon</span>
+    
+    <div class="card" data-link="https://drive.google.com/drive/folders/1P76Xswf3D4WJrYpaSOASCuW5YpToRqcv">
+      <div class="card-content">
+        <span class="card-title">Engineering Drawing</span>
+        <span class="card-icon">→</span>
+      </div>
     </div>
-
-    <!-- FOURTH YEAR - COMING SOON -->
-    <div class="year-card disabled">
-      <span class="year-icon">📕</span>
-      <h3 class="year-title">Fourth Year</h3>
-      <p class="year-description">
-        Final year projects, advanced electives, and placement preparation materials. Content will be added soon.
-      </p>
-      <span class="badge coming-soon">Coming Soon</span>
+    
+    <div class="card" data-link="https://drive.google.com/drive/folders/1_beEcV4PWDdg0rxZTeov0QbZJQdwNUDv">
+      <div class="card-content">
+        <span class="card-title">SPM</span>
+        <span class="card-icon">→</span>
+      </div>
     </div>
+    
+    <div class="card" data-link="https://drive.google.com/drive/folders/1geNSRMSXk7K4jrU9CGWg-s_WiH1vK76n">
+      <div class="card-content">
+        <span class="card-title">Engineering Physics</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="https://drive.google.com/drive/folders/17mRkq17VtD7acJB8OSkR89Jo3ykxpq6P">
+      <div class="card-content">
+        <span class="card-title">Basic Electrical Engineering</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- PYQS SECTION - SEM 1 -->
+<section class="section scroll-reveal">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span class="icon">📄</span>
+      PYQs - Semester 1
+    </h2>
+    <p class="section-subtitle">Previous year question papers</p>
+  </div>
+  
+  <div class="cards-grid">
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Applied Maths - 1</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Chemistry</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Drawing</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">SPM</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Physics</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Basic Electrical Engineering</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PYQS SECTION - SEM 2 -->
+<section class="section scroll-reveal">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span class="icon">📄</span>
+      PYQs - Semester 2
+    </h2>
+    <p class="section-subtitle">Previous year question papers</p>
+  </div>
+  
+  <div class="cards-grid">
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Applied Maths - 2</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Chemistry</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Graphics</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Computer Programming</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Physics</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Basic Electronics Engineering</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LABS SECTION -->
+<section class="section scroll-reveal">
+  <div class="section-header">
+    <h2 class="section-title">
+      <span class="icon">🔬</span>
+      Lab Resources
+    </h2>
+    <p class="section-subtitle">Practical manuals and lab experiments</p>
+  </div>
+  
+  <div class="cards-grid">
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Applied Maths - 1</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Chemistry</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Drawing</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">SPM</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Engineering Physics</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
+    
+    <div class="card" data-link="#">
+      <div class="card-content">
+        <span class="card-title">Basic Electrical Engineering</span>
+        <span class="card-icon">→</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -486,9 +631,38 @@ footer p {
 // Remove loading overlay
 setTimeout(() => {
   document.querySelector('.loading-overlay').style.display = 'none';
-}, 1200);
+}, 1500);
+
+// Card click handlers
+document.querySelectorAll('.card[data-link]').forEach(card => {
+  card.addEventListener('click', function() {
+    const link = this.getAttribute('data-link');
+    if (link && link !== '#') {
+      window.open(link, '_blank');
+    }
+  });
+});
+
+// Scroll reveal animation
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('revealed');
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.scroll-reveal').forEach(el => {
+  observer.observe(el);
+});
 
 // Navbar background on scroll
+let lastScroll = 0;
 window.addEventListener('scroll', () => {
   const navbar = document.querySelector('.navbar');
   if (window.scrollY > 100) {
@@ -498,13 +672,6 @@ window.addEventListener('scroll', () => {
     navbar.style.background = 'rgba(10, 14, 39, 0.8)';
     navbar.style.boxShadow = 'none';
   }
-});
-
-// Prevent clicks on disabled cards
-document.querySelectorAll('.year-card.disabled').forEach(card => {
-  card.addEventListener('click', (e) => {
-    e.preventDefault();
-  });
 });
 </script>
 
