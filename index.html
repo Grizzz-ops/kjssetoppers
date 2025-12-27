@@ -534,6 +534,25 @@ footer p {
     font-size:0.9rem;
   "
 >
+      <!-- Filter Dropdown -->
+  <select
+    id="filterSelect"
+    style="
+      padding:0.6rem 1rem;
+      border-radius:8px;
+      border:none;
+      outline:none;
+      font-size:0.9rem;
+      cursor:pointer;
+    "
+  >
+    <option value="all">All</option>
+    <option value="study">Study Material</option>
+    <option value="resources">Resources</option>
+    <option value="campus">Campus Life</option>
+    <option value="placements">Placements</option>
+  </select>
+
 
   </div>
 </header>
@@ -580,7 +599,7 @@ footer p {
   </div>
   
   <div class="features-grid">
-    <a href="kjsce-study-material-redesign.html" class="feature-card">
+    <a href="kjsce-study-material-redesign.html" class="feature-card" data-category="study">
       <span class="feature-icon">📘</span>
       <h3 class="feature-title">Study Material</h3>
       <p class="feature-description">
@@ -590,7 +609,7 @@ footer p {
       <span class="feature-arrow">→</span>
     </a>
     
-    <a href="kjsce-placements.html" class="feature-card">
+    <a href="kjsce-placements.html" class="feature-card" data-category="placements">
       <span class="feature-icon">💼</span>
       <h3 class="feature-title">Placements</h3>
       <p class="feature-description">
@@ -599,7 +618,7 @@ footer p {
       <span class="feature-arrow">→</span>
     </a>
     
-    <a href="kjsce-campus-life-redesign.html" class="feature-card">
+    <a href="kjsce-campus-life-redesign.html" class="feature-card" data-category="campus">
       <span class="feature-icon">🎓</span>
       <h3 class="feature-title">Campus Life</h3>
       <p class="feature-description">
