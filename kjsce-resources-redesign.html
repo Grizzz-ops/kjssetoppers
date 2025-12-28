@@ -2,543 +2,222 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Resources | KJSCE Toppers</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<a href="kjsce-resource-recommendation.html" class="recommend-btn">
+  🧠 Smart Placement Recommendations
+</a>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-:root {
-  --bg: #0a0e27;
-  --bg-secondary: #0f1729;
-  --card: rgba(15, 23, 42, 0.6);
-  --card-hover: rgba(30, 41, 59, 0.8);
-  --text: #f1f5f9;
-  --text-muted: #94a3b8;
-  --accent: #38bdf8;
-  --accent-glow: rgba(56, 189, 248, 0.4);
-  --purple: #a78bfa;
-  --pink: #ec4899;
-  --green: #34d399;
-  --orange: #fb923c;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: radial-gradient(ellipse at top, #1e293b 0%, #0a0e27 50%, #020617 100%);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-  position: relative;
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at top, #1e293b, #020617);
+  color: white;
+  margin: 0;
+  padding: 2rem 1rem;
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 50%, rgba(56, 189, 248, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(167, 139, 250, 0.1) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 0;
+.container {
+  max-width: 900px;
+  margin: auto;
 }
 
-/* NAVBAR */
-.navbar {
-  position: sticky;
-  top: 0;
-  backdrop-filter: blur(16px) saturate(180%);
-  background: rgba(10, 14, 39, 0.8);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  z-index: 100;
-  animation: slideDown 0.5s ease;
-}
-
-@keyframes slideDown {
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.nav-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  z-index: 1;
-}
-
-.logo {
-  font-weight: 800;
-  font-size: 1.25rem;
-  letter-spacing: 0.5px;
-  background: linear-gradient(135deg, var(--accent), var(--purple));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-nav {
-  display: flex;
-  gap: 2rem;
-}
-
-nav a {
-  text-decoration: none;
-  color: var(--text-muted);
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-nav a::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--purple));
-  transition: width 0.3s ease;
-}
-
-nav a:hover {
-  color: var(--text);
-}
-
-nav a:hover::after {
-  width: 100%;
-}
-
-/* HERO */
-.hero {
+h1 {
   text-align: center;
-  padding: 5rem 1.5rem 3rem;
-  position: relative;
-  z-index: 1;
-  animation: fadeInUp 0.8s ease 0.2s backwards;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.hero h1 {
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 800;
-  margin-bottom: 1rem;
-  background: linear-gradient(135deg, var(--text) 0%, var(--accent) 50%, var(--purple) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  background-size: 200% 200%;
-  animation: gradientShift 5s ease infinite;
-  line-height: 1.2;
-}
-
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-.hero p {
-  color: var(--text-muted);
-  font-size: 1.125rem;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-/* BRANCHES SECTION */
-.branches-section {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem 5rem;
-  position: relative;
-  z-index: 1;
-}
-
-.branches-grid {
+.selector {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
 }
 
-/* BRANCH CARD */
-.branch-card {
-  background: var(--card);
-  backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  padding: 3rem 2rem;
+select, button {
+  padding: 0.75rem;
+  border-radius: 10px;
+  border: none;
+  font-weight: 500;
+}
+
+button {
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.results {
+  margin-top: 2rem;
+  display: none;
+}
+
+.card {
+  background: rgba(15, 23, 42, 0.85);
+  padding: 1.2rem;
+  border-radius: 16px;
+  margin-bottom: 1rem;
+}
+
+.card h3 {
+  color: #38bdf8;
+}
+.recommend-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  color: white;
+  background: linear-gradient(135deg, #38bdf8, #6366f1, #a78bfa);
+  background-size: 200% 200%;
+  box-shadow: 0 10px 30px rgba(56, 189, 248, 0.4);
+  transition: all 0.35s ease;
+  animation: gradientMove 4s ease infinite;
   position: relative;
   overflow: hidden;
-  display: block;
-  text-decoration: none;
-  color: var(--text);
-  animation: fadeInUp 0.6s ease backwards;
 }
 
-.branch-card:nth-child(1) { animation-delay: 0.1s; }
-.branch-card:nth-child(2) { animation-delay: 0.2s; }
-.branch-card:nth-child(3) { animation-delay: 0.3s; }
-.branch-card:nth-child(4) { animation-delay: 0.4s; }
-.branch-card:nth-child(5) { animation-delay: 0.5s; }
-
-.branch-card::before {
-  content: '';
+.recommend-btn::before {
+  content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, var(--accent-glow), transparent);
-  opacity: 0;
-  transition: opacity 0.4s ease;
+  inset: -2px;
+  background: linear-gradient(
+    120deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.35),
+    rgba(56, 189, 248, 0.45),
+    rgba(255, 255, 255, 0.35),
+    transparent 80%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.8s ease;
+  filter: blur(2px);
+  opacity: 0.9;
 }
 
-.branch-card:hover {
-  transform: translateY(-10px);
-  border-color: rgba(56, 189, 248, 0.4);
-  box-shadow: 
-    0 25px 50px rgba(0, 0, 0, 0.5),
-    0 0 50px var(--accent-glow);
+
+.recommend-btn:hover::before {
+  transform: translateX(100%);
 }
 
-.branch-card:hover::before {
-  opacity: 0.15;
+.recommend-btn:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 20px 45px rgba(99, 102, 241, 0.5);
 }
 
-/* BRANCH ICON */
-.branch-icon {
-  font-size: 4rem;
-  margin-bottom: 1.5rem;
-  display: block;
-  filter: drop-shadow(0 0 20px var(--accent-glow));
-  position: relative;
-  z-index: 1;
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* BRANCH TITLE */
-.branch-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  position: relative;
-  z-index: 1;
-}
-
-/* BRANCH DESCRIPTION */
-.branch-description {
-  color: var(--text-muted);
-  line-height: 1.6;
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
-  position: relative;
-  z-index: 1;
-}
-
-/* BADGE */
-.badge {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  position: relative;
-  z-index: 1;
-  background: rgba(56, 189, 248, 0.15);
-  color: var(--accent);
-  border: 1px solid var(--accent);
-}
-
-/* ARROW INDICATOR */
-.branch-arrow {
-  margin-top: 1rem;
-  color: var(--accent);
-  font-size: 1.5rem;
-  transition: transform 0.3s ease;
-  display: inline-block;
-  position: relative;
-  z-index: 1;
-}
-
-.branch-card:hover .branch-arrow {
-  transform: translateX(8px);
-}
-
-/* INFO BANNER */
-.info-banner {
-  max-width: 1200px;
-  margin: 0 auto 3rem;
-  padding: 0 1.5rem;
-  position: relative;
-  z-index: 1;
-  animation: fadeInUp 0.6s ease 0.5s backwards;
-}
-
-.banner-content {
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(167, 139, 250, 0.1));
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(56, 189, 248, 0.2);
-  border-radius: 16px;
-  padding: 2rem;
-  text-align: center;
-}
-
-.banner-icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  display: block;
-}
-
-.banner-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  color: var(--text);
-}
-
-.banner-text {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-
-/* FOOTER */
-footer {
-  text-align: center;
-  padding: 3rem 1.5rem;
-  color: var(--text-muted);
-  font-size: 0.875rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  position: relative;
-  z-index: 1;
-  margin-top: 4rem;
-}
-
-footer p {
-  opacity: 0.7;
-}
-
-/* LOADING */
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  animation: fadeOut 0.5s ease 1.2s forwards;
-}
-
-@keyframes fadeOut {
-  to {
-    opacity: 0;
-    pointer-events: none;
-  }
-}
-
-.loader {
-  width: 60px;
-  height: 60px;
-  border: 3px solid rgba(56, 189, 248, 0.1);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* MOBILE RESPONSIVE */
-@media (max-width: 768px) {
-  nav {
-    gap: 1rem;
-  }
-  
-  nav a {
-    font-size: 0.875rem;
-  }
-  
-  .hero {
-    padding: 3rem 1rem 2rem;
-  }
-  
-  .branches-section {
-    padding: 2rem 1rem 3rem;
-  }
-  
-  .branches-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  
-  .branch-card {
-    padding: 2rem 1.5rem;
-  }
-  
-  .banner-content {
-    padding: 1.5rem;
-  }
-}
 </style>
 </head>
 
 <body>
 
-<!-- LOADING OVERLAY -->
-<div class="loading-overlay">
-  <div class="loader"></div>
+<div class="container">
+  <h1>🧠 Smart Resource Recommendation</h1>
+  <p style="text-align:center; opacity:0.8;">
+    Get personalized resources based on your preparation stage
+  </p>
+
+  <div class="selector">
+    <select id="year">
+      <option value="">Select Year</option>
+      <option value="fy">First Year</option>
+      <option value="sy">Second Year</option>
+      <option value="ty">Third Year</option>
+      <option value="fy4">Final Year</option>
+    </select>
+
+    <select id="focus">
+      <option value="">Select Focus Area</option>
+      <option value="dsa">DSA</option>
+      <option value="core">Core Subjects</option>
+      <option value="hackathon">Hackathons</option>
+      <option value="projects">Projects</option>
+    </select>
+
+    <button onclick="recommend()">Get Recommendations</button>
+  </div>
+
+  <div class="results" id="results"></div>
 </div>
-
-<!-- NAVBAR -->
-<header class="navbar">
-  <div class="nav-container">
-    <div class="logo">KJSCE TOPPERS</div>
-    <nav>
-      <nav style="display:flex; align-items:center; gap:2rem; flex-wrap:wrap;">
-  <a href="index.html">Home</a>
-  <a href="kjsce-study-material-redesign.html">Study Material</a>
-  <a href="kjsce-resources-redesign.html">Resources</a>
-  <a href="kjsce-campus-life-redesign.html">Campus Life</a>
-  <a href="kjsce-location-redesign.html">Location</a>
-  <a href="kjsce-contact-redesign.html">Contact</a>
-</nav>
-  </div>
-</header>
-
-<!-- HERO -->
-<section class="hero">
-  <h1>Branch Resources</h1>
-  <p>Access specialized study materials for your engineering branch</p>
-</section>
-
-<!-- INFO BANNER -->
-<div class="info-banner">
-  <div class="banner-content">
-    <span class="banner-icon">📚</span>
-    <h3 class="banner-title">Branch-Specific Content</h3>
-    <p class="banner-text">
-      Find curated notes, PYQs, lab manuals, and project resources tailored to your department. Upload and share responsibly to help fellow students succeed.
-    </p>
-  </div>
-</div>
-
-<!-- BRANCHES SECTION -->
-<section class="branches-section">
-  <div class="branches-grid">
-    
-    <!-- COMPUTER ENGINEERING -->
-    <a href="kjsce-branch-computer.html" class="branch-card">
-      <span class="branch-icon">💻</span>
-      <h3 class="branch-title">Computer Engineering</h3>
-      <p class="branch-description">
-        Core CS subjects including DSA, DBMS, Operating Systems, Computer Networks, Software Engineering, and more.
-      </p>
-      <span class="badge">COMPS</span>
-      <span class="branch-arrow">→</span>
-    </a>
-
-    <!-- AI & DATA SCIENCE -->
-    <a href="kjsce-branch-aids.html" class="branch-card">
-      <span class="branch-icon">🤖</span>
-      <h3 class="branch-title">AI & Data Science</h3>
-      <p class="branch-description">
-        Machine Learning, Deep Learning, Data Analytics, Big Data, Natural Language Processing, and AI fundamentals.
-      </p>
-      <span class="badge">AI-DS</span>
-      <span class="branch-arrow">→</span>
-    </a>
-
-    <!-- INFORMATION TECHNOLOGY -->
-    <a href="kjsce-branch-it.html" class="branch-card">
-      <span class="branch-icon">🖥️</span>
-      <h3 class="branch-title">Information Technology</h3>
-      <p class="branch-description">
-        Web Technologies, Cloud Computing, Cybersecurity, IoT, Mobile App Development, and IT infrastructure.
-      </p>
-      <span class="badge">IT</span>
-      <span class="branch-arrow">→</span>
-    </a>
-
-    <!-- EXTC -->
-    <a href="kjsce-branch-extc.html" class="branch-card">
-      <span class="branch-icon">📡</span>
-      <h3 class="branch-title">Electronics & Telecom</h3>
-      <p class="branch-description">
-        Digital Electronics, Communication Systems, Signal Processing, Microcontrollers, VLSI, and Embedded Systems.
-      </p>
-      <span class="badge">EXTC</span>
-      <span class="branch-arrow">→</span>
-    </a>
-
-    <!-- MECHANICAL -->
-    <a href="kjsce-branch-mech.html" class="branch-card">
-      <span class="branch-icon">⚙️</span>
-      <h3 class="branch-title">Mechanical Engineering</h3>
-      <p class="branch-description">
-        Thermodynamics, Fluid Mechanics, Manufacturing, Design, CAD/CAM, Automotive Engineering, and Robotics.
-      </p>
-      <span class="badge">MECH</span>
-      <span class="branch-arrow">→</span>
-    </a>
-
-  </div>
-</section>
-
-<footer>
-  <p>© 2025 KJSCE Toppers • Upload & Share Responsibly</p>
-</footer>
 
 <script>
-// Remove loading overlay
-setTimeout(() => {
-  document.querySelector('.loading-overlay').style.display = 'none';
-}, 1200);
+function recommend() {
+  const year = document.getElementById("year").value;
+  const focus = document.getElementById("focus").value;
+  const results = document.getElementById("results");
 
-// Navbar background on scroll
-window.addEventListener('scroll', () => {
-  const navbar = document.querySelector('.navbar');
-  if (window.scrollY > 100) {
-    navbar.style.background = 'rgba(10, 14, 39, 0.95)';
-    navbar.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.3)';
-  } else {
-    navbar.style.background = 'rgba(10, 14, 39, 0.8)';
-    navbar.style.boxShadow = 'none';
+  if (!year || !focus) {
+    alert("Please select both Year and Focus Area");
+    return;
   }
-});
+
+  let content = "";
+
+  const data = {
+    dsa: [
+      "Arrays, Strings, Linked Lists",
+      "Stacks, Queues",
+      "Trees & Binary Search Trees",
+      "Graphs & Dynamic Programming",
+      "Practice on LeetCode & CodeChef"
+    ],
+    core: [
+      "Operating Systems",
+      "DBMS & SQL",
+      "Computer Networks",
+      "OOPS Concepts",
+      "Interview-oriented theory questions"
+    ],
+    hackathon: [
+      "Smart India Hackathon (SIH)",
+      "Devfolio Hackathons",
+      "MLH Hackathons",
+      "Problem-solving with real datasets",
+      "Team collaboration & pitching"
+    ],
+    projects: [
+      "Full Stack Web Apps",
+      "AI/ML Mini Projects",
+      "Open Source Contributions",
+      "GitHub Portfolio",
+      "Real-world problem solving"
+    ]
+  };
+
+  content += `
+    <div class="card">
+      <h3>Recommended Topics</h3>
+      <ul>${data[focus].map(item => `<li>${item}</li>`).join("")}</ul>
+    </div>
+
+    <div class="card">
+      <h3>Suggested Platforms</h3>
+      <ul>
+        <li>LeetCode / CodeChef</li>
+        <li>GeeksforGeeks</li>
+        <li>YouTube (Take U Forward, Abdul Bari)</li>
+        <li>GitHub</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Next Action</h3>
+      <p>Start with basics, practice daily, and track progress using the Placement Checklist.</p>
+    </div>
+  `;
+
+  results.innerHTML = content;
+  results.style.display = "block";
+}
 </script>
 
 </body>
