@@ -128,6 +128,47 @@ nav a:hover {
 nav a:hover::after {
   width: 100%;
 }
+/* COMPACT NAVBAR */
+.navbar {
+  padding: 0;
+}
+
+.nav-container {
+  padding: 0.6rem 1.2rem;   /* reduced height */
+}
+
+.logo {
+  font-size: 1.15rem;       /* smaller logo */
+  letter-spacing: 0.4px;
+}
+
+nav {
+  gap: 1.2rem;              /* tighter spacing */
+}
+
+nav a {
+  font-size: 0.85rem;       /* smaller text */
+  font-weight: 500;
+}
+
+#theme-toggle {
+  font-size: 1rem;
+  padding: 0.25rem;
+}
+
+/* USER AREA COMPACT */
+#user-area span {
+  font-size: 0.85rem;
+}
+
+#user-area button {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+}
+#user-area {
+  border-left: 1px solid rgba(255,255,255,0.08);
+  padding-left: 0.8rem;
+}
 
 /* HERO SECTION */
 .hero {
@@ -570,6 +611,7 @@ body {
       <a href="kjsce-location-redesign.html">Location</a>
       <a href="kjsce-rideshare-app (1).html">Ride Share</a>
        <a href="kjsce-outlets (1).html">Nearby outlets</a>
+      <a href="kjsce_study_groups.html">Study Groups</a>
       <div id="user-area" style="display:flex; gap:1rem; align-items:center;"></div>
       <button id="theme-toggle" title="Toggle Theme">🌙</button>
 
@@ -733,7 +775,7 @@ if (isLoggedIn === "true") {
 function logout() {
   localStorage.removeItem("loggedIn");
   alert("Logged out successfully");
-  window.location.href = "index.html";
+  window.location.href = "kjsce-login.html";
 }
 
 </script>
