@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus Nearby Outlets - KJSCE</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e27;
+  --bg-secondary: #0f1729;
+  --card: rgba(15, 23, 42, 0.6);
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --accent: #38bdf8;
+  --purple: #a78bfa;
+  --green: #10b981;
+  --orange: #f59e0b;
+  --red: #ef4444;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(ellipse at top, #1e293b 0%, #0a0e27 50%, #020617 100%);
+  color: var(--text);
+  min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(56, 189, 248, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(167, 139, 250, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(16px);
+  background: rgba(10, 14, 39, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 100;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.logo {
+  font-weight: 900;
+  font-size: 1.35rem;
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--text);
+}
+
+.hero {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem 3rem;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 900;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--text), var(--accent), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.filters-section {
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.search-bar {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  padding: 1rem 1.5rem;
+  background: var(--card);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.search-bar:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+}
+
+.filters-container {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.filter-group {
+  position: relative;
+}
+
+.filter-btn {
+  padding: 0.75rem 1.5rem;
+  background: var(--card);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-btn:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  border-color: transparent;
+}
+
+.outlets-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.outlet-card {
+  background: var(--card);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.outlet-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--purple));
+}
+
+.outlet-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(56, 189, 248, 0.3);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.outlet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.outlet-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+.outlet-category {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+.category-food { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+.category-cafe { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
+.category-stationery { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+.category-medical { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
+
+.price-indicator {
+  color: var(--green);
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.outlet-info {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.info-icon {
+  font-size: 1.125rem;
+}
+
+.context-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.context-tag {
+  padding: 0.375rem 0.75rem;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.student-insight {
+  background: rgba(167, 139, 250, 0.1);
+  border-left: 3px solid var(--purple);
+  padding: 0.75rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.outlet-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn-map {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn-map:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 20px rgba(56, 189, 248, 0.4);
+}
+
+.no-results {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-muted);
+  display: none;
+}
+
+.no-results.show {
+  display: block;
+}
+
+.no-results h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+footer {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  z-index: 1;
+  margin-top: 5rem;
+}
+
+@media (max-width: 768px) {
+  .outlets-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .filters-container {
+    flex-direction: column;
+  }
+  
+  .filter-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <div class="logo">KJSCE TOPPERS</div>
+    <nav>
+      <a href="kjsce-home-redesign.html">Home</a>
+      <a href="kjsce-study-material-redesign.html">Study Material</a>
+      <a href="kjsce-campus-life-redesign.html">Campus Life</a>
+      <a href="#">Outlets</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <h1 class="hero-title">🏪 Campus Nearby Outlets</h1>
+  <p class="hero-subtitle">Find the perfect spot for food, study, and essentials</p>
+</section>
+
+<section class="filters-section">
+  <input 
+    type="text" 
+    id="searchBar" 
+    class="search-bar" 
+    placeholder="🔍 Search outlets by name..."
+    onkeyup="filterOutlets()"
+  >
+  
+  <div class="filters-container">
+    <div class="filter-group">
+      <select class="filter-btn" id="situationFilter" onchange="filterOutlets()">
+        <option value="all">📚 All Situations</option>
+        <option value="exam">🎯 Exam Week</option>
+        <option value="quick">⚡ Between Lectures</option>
+        <option value="group">👥 Group Study</option>
+        <option value="late">🌙 Late Night</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <select class="filter-btn" id="categoryFilter" onchange="filterOutlets()">
+        <option value="all">🏷️ All Categories</option>
+        <option value="food">🍔 Food</option>
+        <option value="cafe">☕ Cafe</option>
+        <option value="stationery">📝 Stationery</option>
+        <option value="medical">💊 Medical</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <select class="filter-btn" id="distanceFilter" onchange="filterOutlets()">
+        <option value="all">📍 All Distances</option>
+        <option value="near">Within 500m</option>
+        <option value="medium">Within 1km</option>
+        <option value="far">Within 2km</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <select class="filter-btn" id="priceFilter" onchange="filterOutlets()">
+        <option value="all">💰 All Prices</option>
+        <option value="budget">₹ Budget Friendly</option>
+        <option value="moderate">₹₹ Moderate</option>
+        <option value="premium">₹₹₹ Premium</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<section class="outlets-grid" id="outletsGrid"></section>
+
+<div class="no-results" id="noResults">
+  <h3>No outlets found</h3>
+  <p>Try adjusting your filters</p>
+</div>
+
+<footer>
+  <p>© 2025 KJSCE Toppers • Student Initiative</p>
+</footer>
+
+</body>
+</html>
+<script>
+var outletsData = [
+  {
+    name: "Cafe Coffee Day",
+    category: "cafe",
+    distance: 300,
+    distanceText: "300m from campus",
+    price: "moderate",
+    priceText: "₹₹",
+    timings: "8:00 AM - 11:00 PM",
+    contexts: ["exam", "group", "late"],
+    contextTags: ["Exam Friendly", "Group Study Friendly", "Late Night Study Friendly"],
+    insight: "Popular spot during exam weeks - WiFi and charging points available",
+    mapLink: "https://maps.google.com"
+  },
+  {
+    name: "Shiv Sagar",
+    category: "food",
+    distance: 200,
+    distanceText: "200m from campus",
+    price: "budget",
+    priceText: "₹",
+    timings: "7:00 AM - 10:00 PM",
+    contexts: ["quick"],
+    contextTags: ["Quick Between Lectures", "Budget Friendly"],
+    insight: "Fast service - Perfect for quick lunch breaks between lectures",
+    mapLink: "https://maps.google.com"
+  },
+  {
+    name: "Starbucks",
+    category: "cafe",
+    distance: 800,
+    distanceText: "800m from campus",
+    price: "premium",
+    priceText: "₹₹₹",
+    timings: "9:00 AM - 12:00 AM",
+    contexts: ["exam", "group", "late"],
+    contextTags: ["Premium Study Space", "Group Friendly", "Late Night Open"],
+    insight: "Preferred by final year students for project discussions",
+    mapLink: "https://maps.google.com"
+  },
+  {
+    name: "Medical Plus",
+    category: "medical",
+    distance: 150,
+    distanceText: "150m from campus",
+    price: "budget",
+    priceText: "₹",
+    timings: "24/7",
+    contexts: ["exam", "quick"],
+    contextTags: ["24/7 Available", "Emergency Medicine"],
+    insight: "Open 24/7 - Always there for student emergencies",
+    mapLink: "https://maps.google.com"
+  },
+  {
+    name: "Xerox & Stationery Hub",
+    category: "stationery",
+    distance: 100,
+    distanceText: "100m from campus",
+    price: "budget",
+    priceText: "₹",
+    timings: "8:00 AM - 9:00 PM",
+    contexts: ["exam", "quick"],
+    contextTags: ["Quick Printing", "Exam Essentials", "Budget Friendly"],
+    insight: "Busiest during exam weeks - printing and binding available",
+    mapLink: "https://maps.google.com"
+  },
+  {
+    name: "Subway",
+    category: "food",
+    distance: 600,
+    distanceText: "600m from campus",
+    price: "moderate",
+    priceText: "₹₹",
+    timings: "10:00 AM - 11:00 PM",
+    contexts: ["quick", "group"],
+    contextTags: ["Quick Meals", "Healthy Options", "Group Friendly"],
+    insight: "Popular for quick healthy meals between study sessions",
+    mapLink: "https://maps.google.com"
+  },
+  {
+    name: "Amul Ice Cream Parlour",
+    category: "food",
+    distance: 400,
+    distanceText: "400m from campus",
+    price: "budget",
+    priceText: "₹",
+    timings: "11:00 AM - 11:00 PM",
+    contexts: ["quick", "group"],
+    contextTags: ["Quick Snacks", "Budget Friendly", "Group Hangout"],
+    insight: "Favorite hangout spot for first-year students",
+    mapLink: "https://maps.google.com"
+  },
+  {
+    name: "Blue Tokai Coffee",
+    category: "cafe",
+    distance: 1200,
+    distanceText: "1.2km from campus",
+    price: "premium",
+    priceText: "₹₹₹",
+    timings: "8:00 AM - 10:00 PM",
+    contexts: ["exam", "group"],
+    contextTags: ["Premium Coffee", "Study Atmosphere", "Group Study Friendly"],
+    insight: "Quiet environment preferred for focused study sessions",
+    mapLink: "https://maps.google.com"
+  },
+  {
+    name: "Gungun Sandwich",
+    category: "food",
+    distance: 250,
+    distanceText: "250m from campus",
+    price: "budget",
+    priceText: "₹",
+    timings: "4:00 PM - 11:00 PM",
+    contexts: ["quick", "exam"],
+    contextTags: ["Quick Between Lectures", "Exam Friendly"],
+    insight: "Very popular among students for quick and affordable snacks",
+    mapLink: "https://maps.google.com"
+  },
+  {
+    name: "Friends A Grand Gallery",
+    category: "food",
+    distance: 400,
+    distanceText: "400m from campus",
+    price: "moderate",
+    priceText: "₹₹",
+    timings: "11:00 AM - 10:30 PM",
+    contexts: ["group", "exam"],
+    contextTags: ["Group Friendly", "Exam Week Favorite"],
+    insight: "Good sit-down option for group meals after lectures",
+    mapLink: "https://maps.google.com"
+  },
+  {
+    name: "Mahesh Tapri",
+    category: "food",
+    distance: 300,
+    distanceText: "300m from campus",
+    price: "budget",
+    priceText: "₹",
+    timings: "6:00 AM - 12:00 AM",
+    contexts: ["quick", "late"],
+    contextTags: ["Late Night Open", "Quick Tea Breaks"],
+    insight: "Common stop for tea breaks and late-night refreshment",
+    mapLink: "https://maps.google.com"
+  },
+  {
+    name: "The Waffle Zone",
+    category: "food",
+    distance: 500,
+    distanceText: "500m from campus",
+    price: "moderate",
+    priceText: "₹₹",
+    timings: "12:00 PM - 11:00 PM",
+    contexts: ["group", "late"],
+    contextTags: ["Evening Hangout", "Group Friendly"],
+    insight: "Popular evening dessert spot after classes",
+    mapLink: "https://maps.google.com"
+  },
+  {
+    name: "The Mexican Churros",
+    category: "food",
+    distance: 450,
+    distanceText: "450m from campus",
+    price: "moderate",
+    priceText: "₹₹",
+    timings: "3:00 PM - 11:00 PM",
+    contexts: ["group"],
+    contextTags: ["Unique Dessert Spot", "Group Hangout"],
+    insight: "Unique churros outlet loved by students for desserts",
+    mapLink: "https://maps.google.com"
+  },
+  {
+    name: "Vasuki Building (Landmark)",
+    category: "stationery",
+    distance: 200,
+    distanceText: "200m from campus",
+    price: "budget",
+    priceText: "₹",
+    timings: "All Day",
+    contexts: ["exam", "quick"],
+    contextTags: ["Navigation Landmark", "Exam Essentials Nearby"],
+    insight: "Common reference point for nearby xerox and stationery shops",
+    mapLink: "https://maps.google.com"
+  }
+];
+
+function createOutletCard(outlet) {
+  return '<div class="outlet-card" data-category="' + outlet.category + '" data-distance="' + outlet.distance + '" data-price="' + outlet.price + '" data-contexts="' + outlet.contexts.join(',') + '">' +
+    '<div class="outlet-header">' +
+    '<div>' +
+    '<h3 class="outlet-name">' + outlet.name + '</h3>' +
+    '<span class="outlet-category category-' + outlet.category + '">' + outlet.category.toUpperCase() + '</span>' +
+    '</div>' +
+    '<div class="price-indicator">' + outlet.priceText + '</div>' +
+    '</div>' +
+    '<div class="outlet-info">' +
+    '<div class="info-item"><span class="info-icon">📍</span> ' + outlet.distanceText + '</div>' +
+    '<div class="info-item"><span class="info-icon">🕒</span> ' + outlet.timings + '</div>' +
+    '</div>' +
+    '<div class="context-tags">' + outlet.contextTags.map(function(tag) { return '<span class="context-tag">' + tag + '</span>'; }).join('') + '</div>' +
+    '<div class="student-insight">💡 ' + outlet.insight + '</div>' +
+    '<div class="outlet-actions">' +
+    '<a href="' + outlet.mapLink + '" target="_blank" class="btn-map">📍 View on Map</a>' +
+    '</div>' +
+    '</div>';
+}
+
+function renderOutlets() {
+  var grid = document.getElementById('outletsGrid');
+  grid.innerHTML = outletsData.map(createOutletCard).join('');
+}
+
+function filterOutlets() {
+  var search = document.getElementById('searchBar').value.toLowerCase();
+  var situation = document.getElementById('situationFilter').value;
+  var category = document.getElementById('categoryFilter').value;
+  var distance = document.getElementById('distanceFilter').value;
+  var price = document.getElementById('priceFilter').value;
+  
+  var cards = document.querySelectorAll('.outlet-card');
+  var visibleCount = 0;
+  
+  cards.forEach(function(card) {
+    var name = card.querySelector('.outlet-name').textContent.toLowerCase();
+    var cardCategory = card.dataset.category;
+    var cardDistance = parseInt(card.dataset.distance);
+    var cardPrice = card.dataset.price;
+    var cardContexts = card.dataset.contexts.split(',');
+    
+    var matchesSearch = name.includes(search);
+    var matchesCategory = category === 'all' || cardCategory === category;
+    var matchesSituation = situation === 'all' || cardContexts.includes(situation);
+    
+    var matchesDistance = distance === 'all' || 
+      (distance === 'near' && cardDistance <= 500) ||
+      (distance === 'medium' && cardDistance <= 1000) ||
+      (distance === 'far' && cardDistance <= 2000);
+    
+    var matchesPrice = price === 'all' || cardPrice === price;
+    
+    if (matchesSearch && matchesCategory && matchesSituation && matchesDistance && matchesPrice) {
+      card.style.display = 'block';
+      visibleCount++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+  
+  document.getElementById('noResults').classList.toggle('show', visibleCount === 0);
+}
+
+window.onload = function() {
+  renderOutlets();
+};
+</script>
