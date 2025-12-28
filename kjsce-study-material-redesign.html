@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Study Material | KJSCE Toppers</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -405,6 +406,11 @@ footer p {
 </head>
 
 <body>
+<script>
+if (localStorage.getItem("loggedIn") !== "true") {
+  window.location.href = "kjsce-login.html";
+}
+</script>
 
 <!-- LOADING OVERLAY -->
 <div class="loading-overlay">
@@ -416,14 +422,11 @@ footer p {
   <div class="nav-container">
     <div class="logo">KJSCE TOPPERS</div>
     <nav>
-      <nav style="display:flex; align-items:center; gap:2rem; flex-wrap:wrap;">
-  <a href="index.html">Home</a>
-  <a href="kjsce-study-material-redesign.html">Study Material</a>
-  <a href="kjsce-resources-redesign.html">Resources</a>
-  <a href="kjsce-campus-life-redesign.html">Campus Life</a>
-  <a href="kjsce-location-redesign.html">Location</a>
-  <a href="kjsce-contact-redesign.html">Contact</a>
-</nav>
+      <a href="kjsce-home-redesign.html">Home</a>
+      <a href="kjsce-study-material-redesign.html">Study Material</a>
+      <a href="kjsce-resources-redesign.html">Resources</a>
+      <a href="kjsce-contact-redesign.html">Contact</a>
+    </nav>
   </div>
 </header>
 
@@ -510,6 +513,408 @@ document.querySelectorAll('.year-card.disabled').forEach(card => {
   });
 });
 </script>
+<!-- FLOATING CALCULATOR BUTTON -->
+<button id="calc-toggle">🧮</button>
+
+<!-- CALCULATOR -->
+<div id="calculator">
+  <div class="calc-header">
+    <span>Scientific Calculator</span>
+    <div class="mode-toggle">
+      <button onclick="setMode('DEG')" class="active">DEG</button>
+      <button onclick="setMode('RAD')">RAD</button>
+    </div>
+  </div>
+
+  <input type="text" id="calc-display" readonly />
+
+  <div id="history"></div>
+
+  <div class="calc-grid">
+    <button onclick="memoryClear()">MC</button>
+    <button onclick="memoryRecall()">MR</button>
+    <button onclick="memoryAdd()">M+</button>
+    <button onclick="memorySubtract()">M−</button>
+
+    <button onclick="clearDisplay()">C</button>
+    <button onclick="append('(')">(</button>
+    <button onclick="append(')')">)</button>
+    <button onclick="append('/')">÷</button>
+
+    <button onclick="append('7')">7</button>
+    <button onclick="append('8')">8</button>
+    <button onclick="append('9')">9</button>
+    <button onclick="append('*')">×</button>
+
+    <button onclick="append('4')">4</button>
+    <button onclick="append('5')">5</button>
+    <button onclick="append('6')">6</button>
+    <button onclick="append('-')">−</button>
+
+    <button onclick="append('1')">1</button>
+    <button onclick="append('2')">2</button>
+    <button onclick="append('3')">3</button>
+    <button onclick="append('+')">+</button>
+
+    <button onclick="append('0')">0</button>
+    <button onclick="append('.')">.</button>
+    <button onclick="calculate()">=</button>
+
+    <button onclick="append('trig(`sin`,')">sin</button>
+    <button onclick="append('trig(`cos`,')">cos</button>
+    <button onclick="append('trig(`tan`,')">tan</button>
+    <button onclick="append('**2')">x²</button>
+  </div>
+</div>
+
+<style>
+#calc-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #38bdf8;
+  color: black;
+  border: none;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  font-size: 1.4rem;
+  cursor: pointer;
+  z-index: 999;
+}
+
+#calculator {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 300px;
+  background: #0f1729;
+  color: white;
+  border-radius: 16px;
+  padding: 1rem;
+  display: none;
+  z-index: 1000;
+}
+
+.calc-header {
+  display: flex;
+  justify-content: space-between;
+  cursor: move;
+  font-weight: bold;
+}
+
+.mode-toggle button {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  margin-left: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.mode-toggle .active {
+  background: #38bdf8;
+}
+
+#calc-display {
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  border: none;
+}
+
+#history {
+  max-height: 60px;
+  overflow-y: auto;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.calc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.4rem;
+}
+
+.calc-grid button {
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: none;
+  background: #1e293b;
+  color: white;
+  cursor: pointer;
+}
+</style>
+
+<script>
+const calc = document.getElementById("calculator");
+const toggle = document.getElementById("calc-toggle");
+const display = document.getElementById("calc-display");
+const historyBox = document.getElementById("history");
+let angleMode = "DEG";
+let memory = 0;
+
+toggle.onclick = () => {
+  calc.style.display = calc.style.display === "block" ? "none" : "block";
+};
+
+function append(val) { display.value += val; }
+function clearDisplay() { display.value = ""; }
+
+function calculate() {
+  try {
+    const result = eval(display.value);
+    historyBox.innerHTML += `<div>${display.value} = ${result}</div>`;
+    display.value = result;
+  } catch {
+    display.value = "Error";
+  }
+}
+
+function trig(fn, val) {
+  if (angleMode === "DEG") val = val * Math.PI / 180;
+  return Math[fn](val);
+}
+
+function setMode(mode) {
+  angleMode = mode;
+  document.querySelectorAll('.mode-toggle button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+function memoryClear() { memory = 0; }
+function memoryRecall() { display.value += memory; }
+function memoryAdd() { memory += Number(display.value || 0); }
+function memorySubtract() { memory -= Number(display.value || 0); }
+
+/* Keyboard Input */
+document.addEventListener("keydown", e => {
+  if ("0123456789+-*/().".includes(e.key)) append(e.key);
+  if (e.key === "Enter") calculate();
+  if (e.key === "Backspace") display.value = display.value.slice(0, -1);
+});
+
+/* Dragging */
+let isDragging = false, x, y;
+document.querySelector(".calc-header").onmousedown = e => {
+  isDragging = true;
+  x = e.clientX - calc.offsetLeft;
+  y = e.clientY - calc.offsetTop;
+};
+document.onmousemove = e => {
+  if (!isDragging) return;
+  calc.style.left = e.clientX - x + "px";
+  calc.style.top = e.clientY - y + "px";
+};
+document.onmouseup = () => isDragging = false;
+</script>
+<!-- AI CHATBOT BUTTON -->
+<button id="bot-toggle">🤖</button>
+
+<!-- CHATBOT -->
+<div id="chatbot">
+  <div class="bot-header">
+    <span>KJSCE AI Assistant</span>
+    <button onclick="toggleBot()">✕</button>
+  </div>
+
+  <div id="bot-messages"></div>
+
+  <div class="bot-input">
+    <input type="text" id="user-input" placeholder="Ask your doubt..." />
+    <button onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<style>
+#bot-toggle {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #38bdf8;
+  border: none;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 999;
+}
+
+#chatbot {
+  position: fixed;
+  bottom: 90px;
+  left: 20px;
+  width: 320px;
+  height: 420px;
+  background: #0f1729;
+  color: white;
+  border-radius: 16px;
+  display: none;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.bot-header {
+  padding: 0.8rem;
+  background: #1e293b;
+  border-radius: 16px 16px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bot-header button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#bot-messages {
+  flex: 1;
+  padding: 0.8rem;
+  overflow-y: auto;
+  font-size: 0.9rem;
+}
+
+.message {
+  margin-bottom: 0.6rem;
+  line-height: 1.4;
+}
+
+.user {
+  text-align: right;
+  color: #38bdf8;
+}
+
+.bot {
+  color: #e5e7eb;
+}
+
+.bot-input {
+  display: flex;
+  padding: 0.6rem;
+  border-top: 1px solid #1e293b;
+}
+
+.bot-input input {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: none;
+}
+
+.bot-input button {
+  margin-left: 0.4rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 8px;
+  border: none;
+  background: #38bdf8;
+  cursor: pointer;
+}
+/* THEME VARIABLES */
+body.light-mode {
+  --bg: #f8fafc;
+  --bg-secondary: #e2e8f0;
+  --card: rgba(255, 255, 255, 0.9);
+  --card-hover: #f1f5f9;
+  --text: #020617;
+  --text-muted: #475569;
+  --accent: #0284c7;
+  --accent-glow: rgba(2, 132, 199, 0.3);
+}
+
+/* Smooth transition */
+body {
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Toggle button styling */
+#theme-toggle {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--text);
+}
+
+</style>
+
+<script>
+const bot = document.getElementById("chatbot");
+const messages = document.getElementById("bot-messages");
+const input = document.getElementById("user-input");
+
+document.getElementById("bot-toggle").onclick = toggleBot;
+
+function toggleBot() {
+  bot.style.display = bot.style.display === "flex" ? "none" : "flex";
+  if (messages.innerHTML === "") {
+    botReply("Hi 👋 I’m your KJSCE AI Assistant. Ask me about notes, PYQs, placements or campus life!");
+  }
+}
+
+function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
+  addMessage(text, "user");
+  input.value = "";
+  setTimeout(() => processQuery(text), 500);
+}
+
+function addMessage(text, type) {
+  const msg = document.createElement("div");
+  msg.className = `message ${type}`;
+  msg.textContent = text;
+  messages.appendChild(msg);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function botReply(text) {
+  addMessage(text, "bot");
+}
+
+function processQuery(query) {
+  query = query.toLowerCase();
+
+  if (query.includes("pyq") || query.includes("previous")) {
+    botReply("You can find PYQs under Study Material → Year → PYQs 📘");
+  }
+  else if (query.includes("notes")) {
+    botReply("All subject notes are available in the Study Material section, organized year-wise.");
+  }
+  else if (query.includes("placement")) {
+    botReply("Placement preparation includes DSA, aptitude, projects, and hackathons. Check the Placement page 🎯");
+  }
+  else if (query.includes("hackathon")) {
+    botReply("Hackathons help build projects and improve problem-solving skills. Participate from first year itself!");
+  }
+  else if (query.includes("dsa")) {
+    botReply("For DSA, start with arrays, strings, and recursion. Practice daily on platforms like LeetCode.");
+  }
+  else if (query.includes("contact")) {
+    botReply("You can contact us through the Contact page for any academic help.");
+  }
+  else if (query.includes("campus")) {
+    botReply("Campus Life section shows events, clubs, and activities happening at KJSCE 🎓");
+  }
+  else if (query.includes("hello") || query.includes("hi")) {
+    botReply("Hello! 😊 How can I help you today?");
+  }
+  else {
+    botReply("Sorry 😅 I can help with notes, PYQs, placements, hackathons, and campus info.");
+  }
+}
+
+input.addEventListener("keydown", e => {
+  if (e.key === "Enter") sendMessage();
+});
+</script>
+<script src="theme.js"></script>
 
 </body>
 </html>
