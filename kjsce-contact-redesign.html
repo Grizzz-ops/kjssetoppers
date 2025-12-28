@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
 :root {
   --bg: #0a0e27;
@@ -471,10 +472,41 @@ footer p {
     padding: 2rem 1.5rem;
   }
 }
+/* THEME VARIABLES */
+body.light-mode {
+  --bg: #f8fafc;
+  --bg-secondary: #e2e8f0;
+  --card: rgba(255, 255, 255, 0.9);
+  --card-hover: #f1f5f9;
+  --text: #020617;
+  --text-muted: #475569;
+  --accent: #0284c7;
+  --accent-glow: rgba(2, 132, 199, 0.3);
+}
+
+/* Smooth transition */
+body {
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Toggle button styling */
+#theme-toggle {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--text);
+}
+
 </style>
 </head>
 
 <body>
+<script>
+if (localStorage.getItem("loggedIn") !== "true") {
+  window.location.href = "kjsce-login.html";
+}
+</script>
 
 <!-- LOADING OVERLAY -->
 <div class="loading-overlay">
@@ -486,14 +518,9 @@ footer p {
   <div class="nav-container">
     <div class="logo">KJSCE TOPPERS</div>
     <nav>
-      <nav style="display:flex; align-items:center; gap:2rem; flex-wrap:wrap;">
-  <a href="index.html">Home</a>
-  <a href="kjsce-study-material-redesign.html">Study Material</a>
-  <a href="kjsce-resources-redesign.html">Resources</a>
-  <a href="kjsce-campus-life-redesign.html">Campus Life</a>
-  <a href="kjsce-location-redesign.html">Location</a>
-  <a href="kjsce-contact-redesign.html">Contact</a>
-</nav>
+      <a href="kjsce-home-redesign.html">Home</a>
+      <a href="kjsce-resources-redesign.html">Resources</a>
+      <a href="kjsce-contact-redesign.html">Contact</a>
     </nav>
   </div>
 </header>
@@ -614,6 +641,7 @@ function toggleCommunities() {
   list.classList.toggle('active');
 }
 </script>
+<script src="theme.js"></script>
 
 </body>
 </html>
