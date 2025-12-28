@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Active Study Groups - KJSCE Toppers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Filter Section */
+        .filters {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .filter-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Study Groups Grid */
+        .groups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .group-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .group-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .group-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .subject-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .difficulty-badge {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .difficulty-beginner {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .difficulty-intermediate {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .difficulty-advanced {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .group-topic {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .group-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .info-item svg {
+            width: 18px;
+            height: 18px;
+            color: #667eea;
+        }
+
+        .tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: #f0f2ff;
+            color: #667eea;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .members-progress {
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .join-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .join-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .join-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Create Group Button */
+        .create-group-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: 0 5px 25px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .create-group-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.5);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .modal-btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .groups-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-buttons {
+                flex-direction: column;
+            }
+
+            .filter-btn {
+                width: 100%;
+            }
+        }
+
+        /* Live indicator */
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #dc3545;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .pulse {
+            width: 10px;
+            height: 10px;
+            background: #dc3545;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.2);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>👥 Active Study Groups</h1>
+            <p>Join collaborative learning sessions happening right now at KJSCE</p>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="number" id="activeGroups">12</div>
+                <div class="label">Active Groups</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" id="totalStudents">47</div>
+                <div class="label">Students Studying</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" id="happeningNow">3</div>
+                <div class="label">Happening Now</div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <div class="filter-title">Filter by Subject</div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterGroups('all')">All Subjects</button>
+                <button class="filter-btn" onclick="filterGroups('Data Structures')">Data Structures</button>
+                <button class="filter-btn" onclick="filterGroups('Machine Learning')">Machine Learning</button>
+                <button class="filter-btn" onclick="filterGroups('Database Systems')">Database Systems</button>
+                <button class="filter-btn" onclick="filterGroups('Web Technologies')">Web Technologies</button>
+                <button class="filter-btn" onclick="filterGroups('Operating Systems')">Operating Systems</button>
+            </div>
+        </div>
+
+        <!-- Study Groups Grid -->
+        <div class="groups-grid" id="groupsGrid">
+            <!-- Groups will be dynamically inserted here -->
+        </div>
+
+        <!-- Create Group Button -->
+        <button class="create-group-btn" onclick="openModal()" title="Create New Study Group">+</button>
+
+        <!-- Modal for Creating Group -->
+        <div class="modal" id="createModal">
+            <div class="modal-content">
+                <div class="modal-header">Create New Study Group</div>
+                <form id="createGroupForm">
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <select id="subject" required>
+                            <option value="">Select Subject</option>
+                            <option value="Data Structures">Data Structures</option>
+                            <option value="Machine Learning">Machine Learning</option>
+                            <option value="Database Systems">Database Systems</option>
+                            <option value="Web Technologies">Web Technologies</option>
+                            <option value="Operating Systems">Operating Systems</option>
+                            <option value="Computer Networks">Computer Networks</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Topic</label>
+                        <input type="text" id="topic" placeholder="e.g., Binary Trees Problem Solving" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Date & Time</label>
+                        <input type="datetime-local" id="datetime" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" id="location" placeholder="e.g., Library Study Room 3" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Max Members</label>
+                        <input type="number" id="maxMembers" min="2" max="10" value="6" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Difficulty Level</label>
+                        <select id="difficulty" required>
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <div class="modal-buttons">
+                        <button type="button" class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
+                        <button type="submit" class="modal-btn modal-btn-primary">Create Group</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample study groups data
+        let studyGroups = [
+            {
+                id: 1,
+                subject: 'Machine Learning',
+                topic: 'Neural Networks Deep Dive',
+                time: 'Today 6:00 PM',
+                location: 'Library Study Room 3',
+                members: 4,
+                maxMembers: 6,
+                difficulty: 'Intermediate',
+                tags: ['Theory', 'Practical'],
+                isLive: false
+            },
+            {
+                id: 2,
+                subject: 'Data Structures',
+                topic: 'Trees & Graphs Problem Solving',
+                time: 'Tomorrow 4:00 PM',
+                location: 'Lab 201',
+                members: 3,
+                maxMembers: 5,
+                difficulty: 'Advanced',
+                tags: ['Coding', 'Interview Prep'],
+                isLive: false
+            },
+            {
+                id: 3,
+                subject: 'Database Systems',
+                topic: 'SQL Query Optimization',
+                time: 'Now - 3:00 PM',
+                location: 'Online (Google Meet)',
+                members: 5,
+                maxMembers: 6,
+                difficulty: 'Beginner',
+                tags: ['Practical', 'Exam Prep'],
+                isLive: true
+            },
+            {
+                id: 4,
+                subject: 'Web Technologies',
+                topic: 'React Hooks & State Management',
+                time: 'Today 5:00 PM',
+                location: 'A-304',
+                members: 2,
+                maxMembers: 5,
+                difficulty: 'Intermediate',
+                tags: ['Hands-on', 'Project'],
+                isLive: false
+            },
+            {
+                id: 5,
+                subject: 'Operating Systems',
+                topic: 'Process Scheduling Algorithms',
+                time: 'Wed 2:00 PM',
+                location: 'Library Zone B',
+                members: 4,
+                maxMembers: 6,
+                difficulty: 'Intermediate',
+                tags: ['Theory', 'Exam Prep'],
+                isLive: false
+            },
+            {
+                id: 6,
+                subject: 'Machine Learning',
+                topic: 'Data Preprocessing & Feature Engineering',
+                time: 'Now - 4:30 PM',
+                location: 'Lab 305',
+                members: 6,
+                maxMembers: 8,
+                difficulty: 'Beginner',
+                tags: ['Practical', 'Python'],
+                isLive: true
+            },
+            {
+                id: 7,
+                subject: 'Data Structures',
+                topic: 'Dynamic Programming Marathon',
+                time: 'Sat 10:00 AM',
+                location: 'Online (Discord)',
+                members: 7,
+                maxMembers: 10,
+                difficulty: 'Advanced',
+                tags: ['Coding', 'Competitive'],
+                isLive: false
+            },
+            {
+                id: 8,
+                subject: 'Database Systems',
+                topic: 'NoSQL vs SQL - Practical Comparison',
+                time: 'Now - 5:00 PM',
+                location: 'B-201',
+                members: 3,
+                maxMembers: 5,
+                difficulty: 'Intermediate',
+                tags: ['Theory', 'Practical'],
+                isLive: true
+            }
+        ];
+
+        let currentFilter = 'all';
+
+        function renderGroups() {
+            const grid = document.getElementById('groupsGrid');
+            const filteredGroups = currentFilter === 'all' 
+                ? studyGroups 
+                : studyGroups.filter(g => g.subject === currentFilter);
+
+            grid.innerHTML = filteredGroups.map(group => `
+                <div class="group-card" data-subject="${group.subject}">
+                    <div class="group-header">
+                        <span class="subject-badge">${group.subject}</span>
+                        <span class="difficulty-badge difficulty-${group.difficulty.toLowerCase()}">${group.difficulty}</span>
+                    </div>
+                    
+                    <h3 class="group-topic">${group.topic}</h3>
+                    
+                    <div class="group-info">
+                        <div class="info-item">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <span>${group.time}</span>
+                        </div>
+                        <div class="info-item">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            <span>${group.location}</span>
+                        </div>
+                    </div>
+                    
+                    ${group.isLive ? `
+                        <div class="live-indicator" style="margin-bottom: 15px;">
+                            <span class="pulse"></span>
+                            <span>HAPPENING NOW</span>
+                        </div>
+                    ` : ''}
+                    
+                    <div class="tags">
+                        ${group.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    
+                    <div class="members-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${(group.members / group.maxMembers) * 100}%"></div>
+                        </div>
+                        <div class="progress-text">
+                            <svg style="width: 16px; height: 16px; display: inline; vertical-align: middle;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                            </svg>
+                            ${group.members}/${group.maxMembers} members
+                        </div>
+                    </div>
+                    
+                    <button class="join-btn" ${group.members >= group.maxMembers ? 'disabled' : ''} onclick="joinGroup(${group.id})">
+                        ${group.members >= group.maxMembers ? 'Group Full' : group.isLive ? 'Join Now 🔴' : 'Join Group'}
+                    </button>
+                </div>
+            `).join('');
+
+            updateStats();
+        }
+
+        function filterGroups(subject) {
+            currentFilter = subject;
+            
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderGroups();
+        }
+
+        function updateStats() {
+            const activeCount = studyGroups.length;
+            const totalStudents = studyGroups.reduce((sum, g) => sum + g.members, 0);
+            const liveCount = studyGroups.filter(g => g.isLive).length;
+
+            document.getElementById('activeGroups').textContent = activeCount;
+            document.getElementById('totalStudents').textContent = totalStudents;
+            document.getElementById('happeningNow').textContent = liveCount;
+        }
+
+        function joinGroup(groupId) {
+            const group = studyGroups.find(g => g.id === groupId);
+            if (group && group.members < group.maxMembers) {
+                group.members++;
+                renderGroups();
+                alert(`Successfully joined: ${group.topic}\n\nLocation: ${group.location}\nTime: ${group.time}\n\nYou'll receive a confirmation email with meeting details!`);
+            }
+        }
+
+        function openModal() {
+            document.getElementById('createModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('createModal').classList.remove('active');
+            document.getElementById('createGroupForm').reset();
+        }
+
+        document.getElementById('createGroupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newGroup = {
+                id: studyGroups.length + 1,
+                subject: document.getElementById('subject').value,
+                topic: document.getElementById('topic').value,
+                time: new Date(document.getElementById('datetime').value).toLocaleString('en-US', {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: '2-digit'
+                }),
+                location: document.getElementById('location').value,
+                members: 1,
+                maxMembers: parseInt(document.getElementById('maxMembers').value),
+                difficulty: document.getElementById('difficulty').value,
+                tags: ['New', 'Organizing'],
+                isLive: false
+            };
+
+            studyGroups.unshift(newGroup);
+            renderGroups();
+            closeModal();
+            
+            alert('Study group created successfully! 🎉\n\nYour group is now visible to all KJSCE students.');
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('createModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Initial render
+        renderGroups();
+    </script>
+</body>
+</html>
