@@ -14,6 +14,8 @@
   --card: rgba(255,255,255,0.06);
   --text: #f1f5f9;
   --muted: #94a3b8;
+  --success: #22c55e;
+  --error: #ef4444;
 }
 
 * {
@@ -31,6 +33,7 @@ body {
   color: var(--text);
 }
 
+/* ---------- LOGIN CARD ---------- */
 .form-box {
   width: 100%;
   max-width: 420px;
@@ -93,10 +96,47 @@ button:hover {
   text-decoration: none;
   font-weight: 600;
 }
+
+/* ---------- TOAST NOTIFICATION ---------- */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  min-width: 260px;
+  padding: 1rem 1.2rem;
+  border-radius: 14px;
+  font-weight: 600;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+  transition: all 0.4s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast.success {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.toast.error {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+}
 </style>
 </head>
 
 <body>
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
 
 <div class="form-box">
   <h2>Login</h2>
@@ -112,6 +152,16 @@ button:hover {
 </div>
 
 <script>
+function showToast(message, type = "success") {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.className = `toast ${type} show`;
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}
+
 function login() {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
@@ -119,16 +169,19 @@ function login() {
   const user = JSON.parse(localStorage.getItem("user"));
 
   if (!user) {
-    alert("No account found. Please sign up.");
+    showToast("No account found. Please sign up.", "error");
     return;
   }
 
   if (email === user.email && password === user.password) {
     localStorage.setItem("loggedIn", "true");
-    alert("Login successful!");
-    window.location.href = "kjsce-home-redesign.html";
+    showToast("Login successful! Redirecting...", "success");
+
+    setTimeout(() => {
+      window.location.href = "kjsce-home-redesign.html";
+    }, 1200);
   } else {
-    alert("Invalid email or password");
+    showToast("Invalid email or password", "error");
   }
 }
 </script>
