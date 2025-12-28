@@ -11,14 +11,15 @@
 :root {
   --accent: #38bdf8;
   --bg: #020617;
-  --card: rgba(255,255,255,0.06);
+  --card: rgba(255,255,255,0.07);
   --text: #f1f5f9;
   --muted: #94a3b8;
+  --success: #22c55e;
+  --error: #ef4444;
+  --warn: #facc15;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -31,27 +32,35 @@ body {
   color: var(--text);
 }
 
+/* CARD */
 .form-box {
   width: 100%;
-  max-width: 420px;
-  padding: 2.8rem;
+  max-width: 440px;
+  padding: 2.6rem;
   background: var(--card);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(18px);
   border-radius: 18px;
   border: 1px solid rgba(255,255,255,0.1);
   box-shadow: 0 0 40px rgba(56,189,248,0.25);
+  animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 h2 {
   text-align: center;
-  margin-bottom: 1.8rem;
+  margin-bottom: 1.6rem;
   font-weight: 700;
 }
 
+/* INPUTS */
 input {
   width: 100%;
   padding: 0.9rem;
-  margin-bottom: 1.1rem;
+  margin-bottom: 0.9rem;
   border-radius: 10px;
   border: none;
   background: rgba(255,255,255,0.08);
@@ -59,10 +68,29 @@ input {
   font-size: 0.95rem;
 }
 
-input::placeholder {
-  color: var(--muted);
+input::placeholder { color: var(--muted); }
+input:focus { outline: 2px solid var(--accent); }
+
+/* PASSWORD STRENGTH */
+.strength {
+  height: 6px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.15);
+  margin-bottom: 0.8rem;
+  overflow: hidden;
 }
 
+.strength div {
+  height: 100%;
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+.weak { background: var(--error); }
+.medium { background: var(--warn); }
+.strong { background: var(--success); }
+
+/* BUTTON */
 button {
   width: 100%;
   padding: 0.95rem;
@@ -73,14 +101,34 @@ button {
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  margin-top: 0.5rem;
 }
 
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(56,189,248,0.4);
+button.loading {
+  pointer-events: none;
+  opacity: 0.8;
 }
 
+button.loading::after {
+  content: "";
+  width: 22px;
+  height: 22px;
+  border: 3px solid white;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg) translate(-50%, -50%); }
+}
+
+/* LOGIN LINK */
 .login-link {
   margin-top: 1.4rem;
   text-align: center;
@@ -93,19 +141,48 @@ button:hover {
   text-decoration: none;
   font-weight: 600;
 }
+
+/* TOAST */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 1rem 1.2rem;
+  border-radius: 14px;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: 0.4s ease;
+  color: white;
+  z-index: 999;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast.success { background: linear-gradient(135deg, #22c55e, #16a34a); }
+.toast.error { background: linear-gradient(135deg, #ef4444, #b91c1c); }
 </style>
 </head>
 
 <body>
+
+<div id="toast" class="toast"></div>
 
 <div class="form-box">
   <h2>Create Account</h2>
 
   <input type="text" id="name" placeholder="Full Name">
   <input type="email" id="email" placeholder="Email Address">
-  <input type="password" id="password" placeholder="Password">
+  <input type="password" id="password" placeholder="Password" oninput="checkStrength(this.value)">
+  
+  <div class="strength"><div id="bar"></div></div>
 
-  <button onclick="signup()">Sign Up</button>
+  <input type="password" id="confirm" placeholder="Confirm Password">
+
+  <button id="signupBtn" onclick="signup()">Sign Up</button>
 
   <div class="login-link">
     Already have an account? <a href="kjsce-login.html">Login</a>
@@ -113,25 +190,64 @@ button:hover {
 </div>
 
 <script>
+const toast = document.getElementById("toast");
+const bar = document.getElementById("bar");
+const btn = document.getElementById("signupBtn");
+
+function showToast(msg, type) {
+  toast.textContent = msg;
+  toast.className = `toast ${type} show`;
+  setTimeout(() => toast.classList.remove("show"), 3000);
+}
+
+function checkStrength(password) {
+  let strength = 0;
+  if (password.length >= 6) strength++;
+  if (/[A-Z]/.test(password)) strength++;
+  if (/[0-9]/.test(password)) strength++;
+
+  bar.className = "";
+  if (strength === 1) {
+    bar.style.width = "33%";
+    bar.classList.add("weak");
+  } else if (strength === 2) {
+    bar.style.width = "66%";
+    bar.classList.add("medium");
+  } else if (strength === 3) {
+    bar.style.width = "100%";
+    bar.classList.add("strong");
+  } else {
+    bar.style.width = "0";
+  }
+}
+
 function signup() {
   const name = document.getElementById("name").value.trim();
   const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
+  const password = document.getElementById("password").value;
+  const confirm = document.getElementById("confirm").value;
 
   if (!name || !email || !password) {
-    alert("Please fill all fields");
+    showToast("Please fill all fields", "error");
     return;
   }
 
-  const user = { name, email, password };
+  if (password !== confirm) {
+    showToast("Passwords do not match", "error");
+    return;
+  }
 
-  localStorage.setItem("user", JSON.stringify(user));
-  localStorage.setItem("loggedIn", "true");
-  
+  btn.classList.add("loading");
 
+  setTimeout(() => {
+    localStorage.setItem("user", JSON.stringify({ name, email, password }));
+    btn.classList.remove("loading");
+    showToast("Account created successfully!", "success");
 
-  alert("Signup successful!");
-  window.location.href = "kjsce-home-redesign.html";
+    setTimeout(() => {
+      window.location.href = "kjsce-login.html";
+    }, 1200);
+  }, 1200);
 }
 </script>
 
