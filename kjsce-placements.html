@@ -3,10 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Placements | KJSCE Toppers</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<a href="kjsce-resource-recommendation.html">Resource Recommendation</a>
+
 <style>
 :root {
   --bg: #0a0e27;
@@ -524,9 +527,77 @@ footer p {
     padding-left: 1.5rem;
   }
 }
+
+#placement-checklist-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: #38bdf8;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 999;
+}
+
+
+#placement-checklist {
+  position: fixed;
+  top: 80px;   /* below the button */
+  right: 20px;
+  width: 320px;
+  max-height: 450px;
+  background: #0f1729;
+  color: white;
+  border-radius: 16px;
+  display: none;
+  flex-direction: column;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.checklist-header {
+  background: #1e293b;
+  padding: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checklist-header button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.checklist-content {
+  padding: 0.8rem;
+  overflow-y: auto;
+  font-size: 0.85rem;
+}
+
+.checklist-content h4 {
+  margin: 0.8rem 0 0.4rem;
+  color: #38bdf8;
+}
+
+.checklist-content label {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+</style>
+
 </style>
 </head>
 <body>
+<script>
+if (localStorage.getItem("loggedIn") !== "true") {
+  window.location.href = "kjsce-login.html";
+}
+</script>
 
 <!-- LOADING OVERLAY -->
 <div class="loading-overlay">
@@ -538,14 +609,11 @@ footer p {
   <div class="nav-container">
     <div class="logo">KJSCE TOPPERS</div>
     <nav>
-     <nav style="display:flex; align-items:center; gap:2rem; flex-wrap:wrap;">
-  <a href="index.html">Home</a>
-  <a href="kjsce-study-material-redesign.html">Study Material</a>
-  <a href="kjsce-resources-redesign.html">Resources</a>
-  <a href="kjsce-campus-life-redesign.html">Campus Life</a>
-  <a href="kjsce-location-redesign.html">Location</a>
-  <a href="kjsce-contact-redesign.html">Contact</a>
-</nav>
+      <a href="kjsce-home-redesign.html">Home</a>
+      <a href="kjsce-study-material-redesign.html">Study Material</a>
+      <a href="kjsce-placements.html">Placements</a>
+      <a href="kjsce-contact-redesign.html">Contact</a>
+    </nav>
   </div>
 </header>
 
@@ -823,6 +891,77 @@ footer p {
         <li>Internships or relevant experience</li>
         <li>Certifications (if relevant)</li>
         <li>Leadership positions in clubs/committees</li>
-
         <li>No grammatical errors
+<div id="placement-checklist">
+  <div class="checklist-header">
+    <span>Placement Checklist</span>
+    <button onclick="toggleChecklist()">✕</button>
+  </div>
 
+  <div class="checklist-content">
+
+    <h4>📘 DSA – Core Topics</h4>
+    <label><input type="checkbox"> Arrays & Strings</label>
+    <label><input type="checkbox"> Recursion & Backtracking</label>
+    <label><input type="checkbox"> Linked List</label>
+    <label><input type="checkbox"> Stack & Queue</label>
+    <label><input type="checkbox"> Hashing (Maps & Sets)</label>
+    <label><input type="checkbox"> Two Pointer & Sliding Window</label>
+
+    <h4>🌲 Trees & Graphs</h4>
+    <label><input type="checkbox"> Binary Trees & BST</label>
+    <label><input type="checkbox"> Tree Traversals</label>
+    <label><input type="checkbox"> Heap & Priority Queue</label>
+    <label><input type="checkbox"> Graph Traversals (BFS / DFS)</label>
+    <label><input type="checkbox"> Shortest Path (Dijkstra)</label>
+    <label><input type="checkbox"> Union Find / DSU</label>
+
+    <h4>⚙️ Advanced DSA</h4>
+    <label><input type="checkbox"> Sorting Algorithms</label>
+    <label><input type="checkbox"> Greedy Algorithms</label>
+    <label><input type="checkbox"> Dynamic Programming</label>
+    <label><input type="checkbox"> Bit Manipulation</label>
+    <label><input type="checkbox"> Time & Space Complexity</label>
+
+    <h4>💻 Core CS Subjects</h4>
+    <label><input type="checkbox"> OOPS Concepts</label>
+    <label><input type="checkbox"> DBMS (SQL, Normalization)</label>
+    <label><input type="checkbox"> Operating Systems</label>
+    <label><input type="checkbox"> Computer Networks</label>
+
+    <h4>🚀 Important Hackathons</h4>
+    <label><input type="checkbox"> Smart India Hackathon (SIH)</label>
+    <label><input type="checkbox"> Hackathons by Devfolio</label>
+    <label><input type="checkbox"> Google Solution Challenge</label>
+    <label><input type="checkbox"> Major League Hacking (MLH)</label>
+    <label><input type="checkbox"> College-level Hackathons</label>
+
+  </div>
+</div>
+<button id="placement-checklist-btn">📋</button>
+<script>
+const checklist = document.getElementById("placement-checklist");
+const btn = document.getElementById("placement-checklist-btn");
+const checkboxes = document.querySelectorAll(
+  "#placement-checklist input[type='checkbox']"
+);
+
+btn.onclick = toggleChecklist;
+
+function toggleChecklist() {
+  checklist.style.display =
+    checklist.style.display === "flex" ? "none" : "flex";
+}
+
+/* Save progress */
+checkboxes.forEach((box, index) => {
+  box.checked = localStorage.getItem("placement_check_" + index) === "true";
+
+  box.addEventListener("change", () => {
+    localStorage.setItem("placement_check_" + index, box.checked);
+  });
+});
+</script>
+
+<script src="theme.js"></script>
+   
