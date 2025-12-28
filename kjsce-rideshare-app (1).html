@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KJSCE Ride Share</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e27;
+  --bg-secondary: #0f1729;
+  --card: rgba(15, 23, 42, 0.6);
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --accent: #38bdf8;
+  --purple: #a78bfa;
+  --green: #10b981;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(ellipse at top, #1e293b 0%, #0a0e27 50%, #020617 100%);
+  color: var(--text);
+  min-height: 100vh;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(56, 189, 248, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(167, 139, 250, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(16px);
+  background: rgba(10, 14, 39, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 100;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.logo {
+  font-weight: 900;
+  font-size: 1.35rem;
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--text);
+}
+
+.hero {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem 3rem;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 900;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--text), var(--accent), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.post-ride-btn {
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.post-ride-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(56, 189, 248, 0.4);
+}
+
+.filters {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.filters-container {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  background: var(--card);
+  backdrop-filter: blur(20px);
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.filter-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-label {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.rides-section {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 1.5rem 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.rides-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.ride-card {
+  background: var(--card);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.ride-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.ride-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--purple));
+}
+
+.ride-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.purpose-badge {
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.purpose-exam { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+.purpose-hackathon { background: rgba(139, 92, 246, 0.2); color: #c4b5fd; }
+.purpose-placement { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
+.purpose-daily { background: rgba(59, 130, 246, 0.2); color: #93c5fd; }
+
+.year-badge {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.375rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.5rem 0;
+}
+
+.ride-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.detail-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.detail-value {
+  font-size: 0.95rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.trust-indicator {
+  color: var(--green);
+}
+
+.ride-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.contact-btn {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--green), #059669);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.no-results {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-muted);
+  display: none;
+}
+
+.no-results.show {
+  display: block;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+}
+
+.modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.modal-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.success-message {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 1rem;
+  color: var(--green);
+  text-align: center;
+  display: none;
+}
+
+.success-message.show {
+  display: block;
+}
+
+footer {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  z-index: 1;
+  margin-top: 5rem;
+}
+</style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <div class="logo">KJSCE TOPPERS</div>
+    <nav>
+      <a href="kjsce-home-redesign.html">Home</a>
+      <a href="kjsce-study-material-redesign.html">Study Material</a>
+      <a href="kjsce-campus-life-redesign.html">Campus Life</a>
+      <a href="#">Ride Share</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <h1 class="hero-title">🚗 Share Your Ride</h1>
+  <p class="hero-subtitle">Connect with fellow students for exams, hackathons, placements & daily commutes</p>
+  
+  <button class="post-ride-btn" onclick="openModal()">➕ Post Your Ride</button>
+  
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-number" id="totalRides">0</div>
+      <div class="stat-label">Active Rides</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" id="totalSeats">0</div>
+      <div class="stat-label">Available Seats</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" id="totalRoutes">0</div>
+      <div class="stat-label">Routes Covered</div>
+    </div>
+  </div>
+</section>
+
+<section class="filters">
+  <div class="filters-container">
+    <div class="filter-group">
+      <label class="filter-label">📍 From Location</label>
+      <select id="locationFilter" class="filter-select" onchange="filterRides()">
+        <option value="all">All Locations</option>
+        <option value="Andheri">Andheri</option>
+        <option value="Borivali">Borivali</option>
+        <option value="Thane">Thane</option>
+        <option value="Ghatkopar">Ghatkopar</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <label class="filter-label">🎯 Purpose</label>
+      <select id="purposeFilter" class="filter-select" onchange="filterRides()">
+        <option value="all">All Purposes</option>
+        <option value="exam">Exam</option>
+        <option value="hackathon">Hackathon</option>
+        <option value="placement">Placement Drive</option>
+        <option value="daily">Daily Commute</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <label class="filter-label">👥 Available Seats</label>
+      <select id="seatsFilter" class="filter-select" onchange="filterRides()">
+        <option value="all">Any</option>
+        <option value="1">1+ Seats</option>
+        <option value="2">2+ Seats</option>
+        <option value="3">3+ Seats</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<section class="rides-section">
+  <div class="rides-grid" id="ridesGrid"></div>
+  
+  <div class="no-results show" id="noResults">
+    <h3>No rides found</h3>
+    <p>Be the first to post a ride!</p>
+  </div>
+</section>
+
+<div class="modal" id="postRideModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">🚗 Post Your Ride</h2>
+      <button class="close-btn" onclick="closeModal()">✕</button>
+    </div>
+    
+    <form id="postRideForm">
+      <div class="form-group">
+        <label class="form-label">From Location</label>
+        <select class="form-select" id="formFrom" required>
+          <option value="">Select location</option>
+          <option value="Andheri">Andheri</option>
+          <option value="Borivali">Borivali</option>
+          <option value="Thane">Thane</option>
+          <option value="Ghatkopar">Ghatkopar</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Purpose</label>
+        <select class="form-select" id="formPurpose" required>
+          <option value="">Select purpose</option>
+          <option value="exam">Exam</option>
+          <option value="hackathon">Hackathon</option>
+          <option value="placement">Placement Drive</option>
+          <option value="daily">Daily Commute</option>
+        </select>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input type="date" class="form-input" id="formDate" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Seats</label>
+          <input type="number" class="form-input" id="formSeats" min="1" max="4" required>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Time Window</label>
+        <input type="text" class="form-input" id="formTime" placeholder="e.g., 7:30 AM - 8:30 AM" required>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Your Year</label>
+        <select class="form-select" id="formYear" required>
+          <option value="">Select year</option>
+          <option value="First Year">First Year</option>
+          <option value="Second Year">Second Year</option>
+          <option value="Third Year">Third Year</option>
+          <option value="Final Year">Final Year</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">WhatsApp Number</label>
+        <input type="text" class="form-input" id="formContact" placeholder="91XXXXXXXXXX" required>
+      </div>
+      
+      <button type="button" class="submit-btn" onclick="submitRide()">Post Ride</button>
+      
+      <div class="success-message" id="successMessage">
+        ✓ Your ride has been posted successfully!
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 KJSCE Toppers • Student Initiative • Share Responsibly</p>
+</footer>
+
+</body>
+</html>
+<script>
+var ridesData = [];
+var purposeLabels = {exam:'Exam',hackathon:'Hackathon',placement:'Placement Drive',daily:'Daily Commute'};
+function openModal(){document.getElementById('postRideModal').classList.add('show');}
+function closeModal(){document.getElementById('postRideModal').classList.remove('show');document.getElementById('successMessage').classList.remove('show');}
+function submitRide(){var f=document.getElementById('formFrom').value,p=document.getElementById('formPurpose').value,d=document.getElementById('formDate').value,s=document.getElementById('formSeats').value,t=document.getElementById('formTime').value,y=document.getElementById('formYear').value,c=document.getElementById('formContact').value;if(!f||!p||!d||!s||!t||!y||!c){alert('Please fill all fields!');return;}ridesData.push({id:ridesData.length+1,from:f,to:"KJSCE Campus",date:d,timeWindow:t,seats:parseInt(s),purpose:p,year:y,trustBadge:"New Rider",contact:'https://wa.me/'+c});renderRides();updateStats();document.getElementById('successMessage').classList.add('show');document.getElementById('postRideForm').reset();setTimeout(closeModal,2000);}
+function createRideCard(r){return'<div class="ride-card" data-location="'+r.from+'" data-purpose="'+r.purpose+'" data-seats="'+r.seats+'"><div class="ride-header"><span class="purpose-badge purpose-'+r.purpose+'">'+purposeLabels[r.purpose]+'</span><span class="year-badge">'+r.year+'</span></div><div class="location">📍 '+r.from+' → 🎓 '+r.to+'</div><div class="ride-details"><div class="detail-item"><span class="detail-label">Date</span><span class="detail-value">'+new Date(r.date).toLocaleDateString('en-IN',{day:'numeric',month:'short'})+'</span></div><div class="detail-item"><span class="detail-label">Time</span><span class="detail-value">'+r.timeWindow+'</span></div><div class="detail-item"><span class="detail-label">Seats</span><span class="detail-value">👥 '+r.seats+'</span></div><div class="detail-item"><span class="detail-label">Badge</span><span class="detail-value trust-indicator">✓ '+r.trustBadge+'</span></div></div><div class="ride-footer"><a href="'+r.contact+'" target="_blank" class="contact-btn">💬 WhatsApp</a></div></div>';}
+function renderRides(){document.getElementById('ridesGrid').innerHTML=ridesData.map(createRideCard).join('');document.getElementById('noResults').classList.toggle('show',ridesData.length===0);}
+function updateStats(){document.getElementById('totalRides').textContent=ridesData.length;document.getElementById('totalSeats').textContent=ridesData.reduce(function(s,r){return s+r.seats;},0);document.getElementById('totalRoutes').textContent=new Set(ridesData.map(function(r){return r.from;})).size;}
+function filterRides(){var l=document.getElementById('locationFilter').value,p=document.getElementById('purposeFilter').value,s=parseInt(document.getElementById('seatsFilter').value)||0,cards=document.querySelectorAll('.ride-card');cards.forEach(function(c){var loc=c.dataset.location,pur=c.dataset.purpose,seats=parseInt(c.dataset.seats),match=(l==='all'||loc===l)&&(p==='all'||pur===p)&&(s===0||seats>=s);c.style.display=match?'block':'none';});}
+window.onload=function(){renderRides();updateStats();document.getElementById('formDate').min=new Date().toISOString().split('T')[0];window.onclick=function(e){if(e.target===document.getElementById('postRideModal'))closeModal();};};
+</script>
