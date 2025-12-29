@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login | KJSCE</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
 :root {
   --accent: #38bdf8;
@@ -17,11 +15,9 @@
   --success: #22c55e;
   --error: #ef4444;
 }
-
 * {
   box-sizing: border-box;
 }
-
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
@@ -32,7 +28,6 @@ body {
   justify-content: center;
   color: var(--text);
 }
-
 /* ---------- LOGIN CARD ---------- */
 .form-box {
   width: 100%;
@@ -44,13 +39,11 @@ body {
   border: 1px solid rgba(255,255,255,0.1);
   box-shadow: 0 0 40px rgba(56,189,248,0.25);
 }
-
 h2 {
   text-align: center;
   margin-bottom: 1.8rem;
   font-weight: 700;
 }
-
 input {
   width: 100%;
   padding: 0.9rem;
@@ -61,11 +54,9 @@ input {
   color: white;
   font-size: 0.95rem;
 }
-
 input::placeholder {
   color: var(--muted);
 }
-
 button {
   width: 100%;
   padding: 0.95rem;
@@ -78,25 +69,21 @@ button {
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 button:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 30px rgba(56,189,248,0.4);
 }
-
 .signup-link {
   margin-top: 1.4rem;
   text-align: center;
   font-size: 0.9rem;
   color: var(--muted);
 }
-
 .signup-link a {
   color: var(--accent);
   text-decoration: none;
   font-weight: 600;
 }
-
 /* ---------- TOAST NOTIFICATION ---------- */
 .toast {
   position: fixed;
@@ -117,66 +104,50 @@ button:hover {
   transition: all 0.4s ease;
   z-index: 9999;
 }
-
 .toast.show {
   opacity: 1;
   transform: translateY(0);
 }
-
 .toast.success {
   background: linear-gradient(135deg, #22c55e, #16a34a);
 }
-
 .toast.error {
   background: linear-gradient(135deg, #ef4444, #b91c1c);
 }
 </style>
 </head>
-
 <body>
-
 <!-- TOAST -->
 <div id="toast" class="toast"></div>
-
 <div class="form-box">
   <h2>Login</h2>
-
   <input type="email" id="email" placeholder="Email Address">
   <input type="password" id="password" placeholder="Password">
-
   <button onclick="login()">Login</button>
-
   <div class="signup-link">
-    Don’t have an account? <a href="kjsce-signup.html">Sign Up</a>
+    Don't have an account? <a href="kjsce-signup.html">Sign Up</a>
   </div>
 </div>
-
 <script>
 function showToast(message, type = "success") {
   const toast = document.getElementById("toast");
   toast.textContent = message;
   toast.className = `toast ${type} show`;
-
   setTimeout(() => {
     toast.classList.remove("show");
   }, 3000);
 }
-
 function login() {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
-
   const user = JSON.parse(localStorage.getItem("user"));
-
   if (!user) {
     showToast("No account found. Please sign up.", "error");
     return;
   }
-
   if (email === user.email && password === user.password) {
     localStorage.setItem("loggedIn", "true");
     showToast("Login successful! Redirecting...", "success");
-
     setTimeout(() => {
       window.location.href = "kjsce-home-redesign.html";
     }, 1200);
@@ -185,6 +156,5 @@ function login() {
   }
 }
 </script>
-
 </body>
 </html>
