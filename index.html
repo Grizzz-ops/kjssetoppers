@@ -38,6 +38,14 @@ body {
   border-radius: 18px;
   border: 1px solid rgba(255,255,255,0.1);
   box-shadow: 0 0 40px rgba(56,189,248,0.25);
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-box.animate-in {
+  opacity: 1;
+  transform: translateX(0);
 }
 h2 {
   text-align: center;
@@ -129,6 +137,24 @@ button:hover {
   </div>
 </div>
 <script>
+// Scroll animation observer
+const scrollObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('animate-in');
+    } else {
+      entry.target.classList.remove('animate-in');
+    }
+  });
+}, {
+  threshold: 0.15,
+  rootMargin: '0px 0px -50px 0px'
+});
+
+// Observe the form box
+const formBox = document.querySelector('.form-box');
+scrollObserver.observe(formBox);
+
 function showToast(message, type = "success") {
   const toast = document.getElementById("toast");
   toast.textContent = message;
